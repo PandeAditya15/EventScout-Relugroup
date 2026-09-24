@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Secrets
+.env
+
+# Runtime data (gitignored per project brief)
+cache/
+data/interim/
+*.pdf
+
+# Editor / OS
+.DS_Store
+
