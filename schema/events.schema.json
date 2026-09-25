@@ -1,0 +1,823 @@
+{
+  "$defs": {
+    "AttendanceBasis": {
+      "enum": [
+        "reported",
+        "estimated",
+        "unknown"
+      ],
+      "title": "AttendanceBasis",
+      "type": "string"
+    },
+    "Attribution": {
+      "properties": {
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        },
+        "license_or_terms": {
+          "title": "License Or Terms",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "url",
+        "license_or_terms"
+      ],
+      "title": "Attribution",
+      "type": "object"
+    },
+    "AudienceType": {
+      "enum": [
+        "b2b",
+        "b2c",
+        "mixed"
+      ],
+      "title": "AudienceType",
+      "type": "string"
+    },
+    "ConfidenceLevel": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "title": "ConfidenceLevel",
+      "type": "string"
+    },
+    "DiscoverySource": {
+      "enum": [
+        "gemini_grounded_search",
+        "openligadb_api",
+        "ticketmaster_api"
+      ],
+      "title": "DiscoverySource",
+      "type": "string"
+    },
+    "Event": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "name_local": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name Local"
+        },
+        "category": {
+          "$ref": "#/$defs/EventCategory"
+        },
+        "subcategory": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subcategory"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "maxLength": 300,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "dates": {
+          "$ref": "#/$defs/EventDates"
+        },
+        "venue": {
+          "$ref": "#/$defs/EventVenue"
+        },
+        "organizer": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Organizer"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "ticketing": {
+          "$ref": "#/$defs/EventTicketing"
+        },
+        "scale": {
+          "$ref": "#/$defs/EventScale"
+        },
+        "audience": {
+          "$ref": "#/$defs/EventAudience"
+        },
+        "geographic_origin": {
+          "$ref": "#/$defs/EventGeographicOrigin"
+        },
+        "evidence": {
+          "$ref": "#/$defs/EventEvidence"
+        },
+        "data_quality": {
+          "$ref": "#/$defs/EventDataQuality"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "category",
+        "dates",
+        "venue",
+        "ticketing",
+        "scale",
+        "audience",
+        "geographic_origin",
+        "evidence",
+        "data_quality"
+      ],
+      "title": "Event",
+      "type": "object"
+    },
+    "EventAttendance": {
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "low": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Low"
+        },
+        "high": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "High"
+        },
+        "basis": {
+          "$ref": "#/$defs/AttendanceBasis"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        }
+      },
+      "required": [
+        "basis"
+      ],
+      "title": "EventAttendance",
+      "type": "object"
+    },
+    "EventAudience": {
+      "description": "Inferred, never reported. See `confidence` and `rationale`.",
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/AudienceType"
+        },
+        "segments": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Segments",
+          "type": "array"
+        },
+        "industries": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Industries",
+          "type": "array"
+        },
+        "interests": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Interests",
+          "type": "array"
+        },
+        "languages": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Languages",
+          "type": "array"
+        },
+        "confidence": {
+          "$ref": "#/$defs/ConfidenceLevel"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "confidence",
+        "rationale"
+      ],
+      "title": "EventAudience",
+      "type": "object"
+    },
+    "EventCategory": {
+      "enum": [
+        "trade_fair_congress",
+        "tech_business_conference",
+        "sports",
+        "music_concert",
+        "festival_culture",
+        "academic_community",
+        "other"
+      ],
+      "title": "EventCategory",
+      "type": "string"
+    },
+    "EventDataQuality": {
+      "properties": {
+        "overall_confidence": {
+          "$ref": "#/$defs/ConfidenceLevel"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        }
+      },
+      "required": [
+        "overall_confidence"
+      ],
+      "title": "EventDataQuality",
+      "type": "object"
+    },
+    "EventDates": {
+      "properties": {
+        "start_date": {
+          "format": "date",
+          "title": "Start Date",
+          "type": "string"
+        },
+        "end_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Date"
+        },
+        "date_confidence": {
+          "$ref": "#/$defs/ConfidenceLevel"
+        }
+      },
+      "required": [
+        "start_date",
+        "date_confidence"
+      ],
+      "title": "EventDates",
+      "type": "object"
+    },
+    "EventEvidence": {
+      "properties": {
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "discovered_via": {
+          "items": {
+            "$ref": "#/$defs/DiscoverySource"
+          },
+          "title": "Discovered Via",
+          "type": "array"
+        },
+        "corroborated": {
+          "title": "Corroborated",
+          "type": "boolean"
+        },
+        "fact_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fact Fields",
+          "type": "array"
+        },
+        "inferred_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Inferred Fields",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sources",
+        "discovered_via",
+        "corroborated"
+      ],
+      "title": "EventEvidence",
+      "type": "object"
+    },
+    "EventGeographicOrigin": {
+      "description": "Inferred, never reported. See `confidence` and `rationale`.",
+      "properties": {
+        "primary": {
+          "items": {
+            "$ref": "#/$defs/GeographicOrigin"
+          },
+          "title": "Primary",
+          "type": "array"
+        },
+        "international_share": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ConfidenceLevel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "confidence": {
+          "$ref": "#/$defs/ConfidenceLevel"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "confidence",
+        "rationale"
+      ],
+      "title": "EventGeographicOrigin",
+      "type": "object"
+    },
+    "EventQuery": {
+      "properties": {
+        "city": {
+          "title": "City",
+          "type": "string"
+        },
+        "country_code": {
+          "title": "Country Code",
+          "type": "string"
+        },
+        "month": {
+          "title": "Month",
+          "type": "string"
+        }
+      },
+      "required": [
+        "city",
+        "country_code",
+        "month"
+      ],
+      "title": "EventQuery",
+      "type": "object"
+    },
+    "EventScale": {
+      "properties": {
+        "attendance": {
+          "$ref": "#/$defs/EventAttendance"
+        },
+        "exhibitors": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exhibitors"
+        },
+        "scale_tier": {
+          "$ref": "#/$defs/ScaleTier"
+        }
+      },
+      "required": [
+        "attendance",
+        "scale_tier"
+      ],
+      "title": "EventScale",
+      "type": "object"
+    },
+    "EventStats": {
+      "properties": {
+        "event_count": {
+          "title": "Event Count",
+          "type": "integer"
+        },
+        "by_category": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Category",
+          "type": "object"
+        },
+        "by_source": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Source",
+          "type": "object"
+        },
+        "corroborated_count": {
+          "title": "Corroborated Count",
+          "type": "integer"
+        },
+        "dropped_by_reason": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Dropped By Reason",
+          "type": "object"
+        }
+      },
+      "required": [
+        "event_count",
+        "by_category",
+        "by_source",
+        "corroborated_count",
+        "dropped_by_reason"
+      ],
+      "title": "EventStats",
+      "type": "object"
+    },
+    "EventTicketing": {
+      "properties": {
+        "is_free": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Free"
+        },
+        "price_note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Price Note"
+        }
+      },
+      "title": "EventTicketing",
+      "type": "object"
+    },
+    "EventVenue": {
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Address"
+        },
+        "district": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "District"
+        },
+        "latitude": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Latitude"
+        },
+        "longitude": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Longitude"
+        },
+        "is_outdoor": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Outdoor"
+        }
+      },
+      "title": "EventVenue",
+      "type": "object"
+    },
+    "GeoScope": {
+      "enum": [
+        "local",
+        "regional",
+        "national",
+        "international"
+      ],
+      "title": "GeoScope",
+      "type": "string"
+    },
+    "GeographicOrigin": {
+      "properties": {
+        "region": {
+          "title": "Region",
+          "type": "string"
+        },
+        "country_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Country Codes",
+          "type": "array"
+        },
+        "scope": {
+          "$ref": "#/$defs/GeoScope"
+        },
+        "share": {
+          "$ref": "#/$defs/ConfidenceLevel"
+        }
+      },
+      "required": [
+        "region",
+        "scope",
+        "share"
+      ],
+      "title": "GeographicOrigin",
+      "type": "object"
+    },
+    "PipelineInfo": {
+      "properties": {
+        "models": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Models",
+          "type": "object"
+        },
+        "sources_used": {
+          "items": {
+            "$ref": "#/$defs/DiscoverySource"
+          },
+          "title": "Sources Used",
+          "type": "array"
+        },
+        "search_queries_executed": {
+          "title": "Search Queries Executed",
+          "type": "integer"
+        },
+        "api_calls": {
+          "title": "Api Calls",
+          "type": "integer"
+        },
+        "cache_hits": {
+          "title": "Cache Hits",
+          "type": "integer"
+        },
+        "estimated_cost_usd": {
+          "title": "Estimated Cost Usd",
+          "type": "number"
+        }
+      },
+      "required": [
+        "models",
+        "sources_used",
+        "search_queries_executed",
+        "api_calls",
+        "cache_hits",
+        "estimated_cost_usd"
+      ],
+      "title": "PipelineInfo",
+      "type": "object"
+    },
+    "ScaleTier": {
+      "enum": [
+        "local",
+        "regional",
+        "national",
+        "international"
+      ],
+      "title": "ScaleTier",
+      "type": "string"
+    },
+    "SourceRef": {
+      "properties": {
+        "url": {
+          "title": "Url",
+          "type": "string"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "publisher_domain": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Publisher Domain"
+        },
+        "retrieved_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieved At"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "title": "SourceRef",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "title": "Generated At",
+      "type": "string"
+    },
+    "query": {
+      "$ref": "#/$defs/EventQuery"
+    },
+    "pipeline": {
+      "$ref": "#/$defs/PipelineInfo"
+    },
+    "attributions": {
+      "items": {
+        "$ref": "#/$defs/Attribution"
+      },
+      "title": "Attributions",
+      "type": "array"
+    },
+    "stats": {
+      "$ref": "#/$defs/EventStats"
+    },
+    "events": {
+      "items": {
+        "$ref": "#/$defs/Event"
+      },
+      "title": "Events",
+      "type": "array"
+    }
+  },
+  "required": [
+    "generated_at",
+    "query",
+    "pipeline",
+    "attributions",
+    "stats",
+    "events"
+  ],
+  "title": "EventScoutOutput",
+  "type": "object"
+}

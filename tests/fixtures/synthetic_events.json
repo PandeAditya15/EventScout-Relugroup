@@ -1,0 +1,87 @@
+{
+  "_comment": "Synthetic data for schema/validation tests only — not real event facts.",
+  "valid_event": {
+    "id": "oktoberfest-2026-10-17-a1b2c3",
+    "name": "Oktoberfest",
+    "name_local": "Oktoberfest",
+    "category": "festival_culture",
+    "subcategory": "beer_festival",
+    "description": "Large annual folk festival on the Theresienwiese.",
+    "dates": {
+      "start_date": "2026-09-19",
+      "end_date": "2026-10-04",
+      "date_confidence": "high"
+    },
+    "venue": {
+      "name": "Theresienwiese",
+      "address": "Theresienwiese, 80336 Munich",
+      "district": "Ludwigsvorstadt-Isarvorstadt",
+      "latitude": 48.1319,
+      "longitude": 11.5497,
+      "is_outdoor": true
+    },
+    "organizer": "Landeshauptstadt München",
+    "url": "https://example.org/oktoberfest",
+    "ticketing": {
+      "is_free": true,
+      "price_note": "Entry free; drinks and rides paid separately"
+    },
+    "scale": {
+      "attendance": {
+        "value": 6000000,
+        "low": 5500000,
+        "high": 6500000,
+        "basis": "reported",
+        "source_url": "https://example.org/oktoberfest-report"
+      },
+      "exhibitors": null,
+      "scale_tier": "international"
+    },
+    "audience": {
+      "type": "b2c",
+      "segments": ["families", "tourists", "young_adults"],
+      "industries": [],
+      "interests": ["beer", "bavarian_culture", "fairground_rides"],
+      "languages": ["de", "en"],
+      "confidence": "high",
+      "rationale": "Synthetic rationale for testing: large public folk festival draws broad general public."
+    },
+    "geographic_origin": {
+      "primary": [
+        {
+          "region": "Bavaria",
+          "country_codes": ["DE"],
+          "scope": "regional",
+          "share": "high"
+        },
+        {
+          "region": "International tourists",
+          "country_codes": ["US", "IT", "GB"],
+          "scope": "international",
+          "share": "medium"
+        }
+      ],
+      "international_share": "medium",
+      "confidence": "medium",
+      "rationale": "Synthetic rationale for testing: known international tourist draw."
+    },
+    "evidence": {
+      "sources": [
+        {
+          "url": "https://example.org/oktoberfest",
+          "title": "Oktoberfest official site",
+          "publisher_domain": "example.org",
+          "retrieved_at": "2026-09-25T00:00:00Z"
+        }
+      ],
+      "discovered_via": ["gemini_grounded_search"],
+      "corroborated": false,
+      "fact_fields": ["name", "dates", "venue"],
+      "inferred_fields": ["audience", "geographic_origin"]
+    },
+    "data_quality": {
+      "overall_confidence": "high",
+      "notes": "Synthetic fixture for schema validation."
+    }
+  }
+}
