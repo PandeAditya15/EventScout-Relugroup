@@ -51,10 +51,10 @@ class CostLedger:
         rates = PRICING["tokens_per_1m_usd"].get(model)
         if not rates:
             return 0.0  # TODO(verify): unpriced model; pricing table not yet filled in
-        cost = 0.0
-        cost += input_tokens / 1_000_000 * (rates.get("input") or 0)
-        cost += output_tokens / 1_000_000 * (rates.get("output") or 0)
-        cost += thinking_tokens / 1_000_000 * (rates.get("thinking") or 0)
+        # Gemini bills thinking tokens at the output rate (no separate price
+        # for them on the official pricing page), so they're combined here.
+        cost = input_tokens / 1_000_000 * rates["input"]
+        cost += (output_tokens + thinking_tokens) / 1_000_000 * rates["output"]
         return cost
 
     def price_search_queries(self, count: int) -> float:
