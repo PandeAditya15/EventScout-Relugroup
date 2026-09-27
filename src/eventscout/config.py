@@ -32,23 +32,29 @@ NOMINATIM_CONTACT_EMAIL = os.environ.get("NOMINATIM_CONTACT_EMAIL")
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 # --- Models --------------------------------------------------------------
-# TODO(verify): fill in after `eventscout smoke-test` lists the models this
-# API key can actually use. Do not fill these in from memory.
+# Confirmed via `eventscout smoke-test` (2026-09-27) against the models this
+# API key can actually use, and picked by the user from that list.
 
-DISCOVERY_MODEL = "TODO(verify)"  # Flash tier; used with the google_search tool
-CHEAP_MODEL = "TODO(verify)"  # Flash-Lite tier; used for structured extraction/enrichment
+DISCOVERY_MODEL = "gemini-2.5-flash"  # Flash tier; used with the google_search tool
+CHEAP_MODEL = "gemini-2.5-flash-lite"  # Flash-Lite tier; used for structured extraction/enrichment
 
 # --- Pricing -------------------------------------------------------------
-# TODO(verify): every value here must be confirmed on the official Gemini API
-# pricing page and shown to the user before it drives any cost estimate or
-# budget check. All values below are placeholders, not real prices.
+# Source: https://ai.google.dev/gemini-api/docs/pricing, Paid tier / Standard,
+# confirmed 2026-09-27. Text/image/video input rates only (no audio calls in
+# this pipeline). Thinking tokens have no separate rate on that page -- Google
+# bills them at the output rate, so cost.py folds thoughts_token_count into
+# the output token count rather than pricing it separately.
+#
+# Grounded search: 1,500 requests/day free (shared across Flash + Flash-Lite),
+# then $35 per 1,000 requests. The rate below prices every query as paid and
+# ignores the free daily allowance -- a deliberate over-estimate, since the
+# ledger's job is to cap spend, not track a shared daily quota.
 
 PRICING: dict = {
-    # USD per 1,000 executed grounded-search queries.
-    "grounded_search_per_1k_queries_usd": None,  # TODO(verify); brief cites ~$14/1k, unconfirmed
-    # USD per 1,000,000 tokens, keyed by model then token type.
+    "grounded_search_per_1k_queries_usd": 35.0,
     "tokens_per_1m_usd": {
-        # "<model-id>": {"input": None, "output": None, "thinking": None},
+        "gemini-2.5-flash": {"input": 0.30, "output": 2.50},
+        "gemini-2.5-flash-lite": {"input": 0.10, "output": 0.40},
     },
 }
 

@@ -1,46 +1,11 @@
-"""Tests for the Gemini wrapper (cache, retries, cost), using a fake client.
-
-No network access and no real API key needed — FakeGeminiClient stands in for
-google.genai's Client.models.
-"""
-
-from types import SimpleNamespace
+"""Tests for the Gemini wrapper: cache, retries, cost recording, grounding parsing."""
 
 import pytest
+from conftest import FakeGeminiClient, make_grounded_response, make_response
 from google.genai.errors import APIError
 
-import eventscout.cache as cache_module
-from eventscout.cost import CostLedger
+from eventscout.cost import BudgetExceededError, CallRecord, CostLedger
 from eventscout.llm import GenerateResult, generate
-
-
-def make_response(text: str, input_tokens=10, output_tokens=5, thinking_tokens=0):
-    usage = SimpleNamespace(
-        prompt_token_count=input_tokens,
-        candidates_token_count=output_tokens,
-        thoughts_token_count=thinking_tokens,
-    )
-    return SimpleNamespace(text=text, usage_metadata=usage)
-
-
-class FakeGeminiClient:
-    """Returns queued responses/exceptions in order, one per call."""
-
-    def __init__(self, results):
-        self._results = list(results)
-        self.call_count = 0
-
-    def generate_content(self, *, model, contents, config):
-        self.call_count += 1
-        result = self._results.pop(0)
-        if isinstance(result, BaseException):
-            raise result
-        return result
-
-
-@pytest.fixture(autouse=True)
-def isolated_cache(tmp_path, monkeypatch):
-    monkeypatch.setattr(cache_module, "CACHE_DIR", tmp_path)
 
 
 def test_generate_calls_client_and_records_cost():
@@ -87,3 +52,45 @@ def test_generate_does_not_retry_non_retryable_error():
         generate(client, model="m", prompt="p", config={}, stage="discover", ledger=ledger)
 
     assert client.call_count == 1
+
+
+def test_grounding_sources_and_search_queries_survive_a_cache_hit():
+    urls = ["https://example.org/a", "https://example.org/b"]
+    client = FakeGeminiClient([make_grounded_response("found some events", urls)])
+    ledger = CostLedger(max_cost_usd=10.0)
+
+    first = generate(client, model="m", prompt="p", config={}, stage="discover", ledger=ledger)
+    second = generate(client, model="m", prompt="p", config={}, stage="discover", ledger=ledger)
+
+    assert first.cache_hit is False
+    assert [s.url for s in first.sources] == urls
+    assert first.search_queries_executed == 2
+
+    assert second.cache_hit is True
+    assert [s.url for s in second.sources] == urls
+    assert second.search_queries_executed == 2
+    assert client.call_count == 1
+
+
+def test_generate_refuses_a_live_call_once_budget_is_already_spent():
+    client = FakeGeminiClient([make_response("should never be reached")])
+    ledger = CostLedger(max_cost_usd=1.0)
+    ledger.record(CallRecord(stage="discover", model="m", cost_usd=1.5))  # already over budget
+
+    with pytest.raises(BudgetExceededError):
+        generate(client, model="m", prompt="p", config={}, stage="discover", ledger=ledger)
+
+    assert client.call_count == 0
+
+
+def test_generate_allows_a_cache_hit_even_when_budget_is_spent():
+    client = FakeGeminiClient([make_response("hello")])
+    ledger = CostLedger(max_cost_usd=10.0)
+    generate(client, model="m", prompt="p", config={}, stage="discover", ledger=ledger)
+
+    ledger.record(CallRecord(stage="discover", model="m", cost_usd=10.0))  # now over budget
+
+    result = generate(client, model="m", prompt="p", config={}, stage="discover", ledger=ledger)
+
+    assert result.cache_hit is True
+    assert client.call_count == 1  # never re-hit the client; cache reads bypass the budget check

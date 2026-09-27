@@ -14,7 +14,12 @@ from eventscout.config import CACHE_DIR
 
 
 def cache_key(model: str, prompt: str, config: dict) -> str:
-    payload = json.dumps({"model": model, "prompt": prompt, "config": config}, sort_keys=True)
+    # `config` may hold SDK objects (e.g. types.Tool, a Pydantic schema class)
+    # that json can't serialise natively; `default=str` falls back to their
+    # repr, which is still stable and distinct for different config values.
+    payload = json.dumps(
+        {"model": model, "prompt": prompt, "config": config}, sort_keys=True, default=str
+    )
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 

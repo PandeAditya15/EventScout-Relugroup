@@ -31,3 +31,24 @@ def test_smoke_test_aborts_without_api_key(monkeypatch):
     result = runner.invoke(app, ["smoke-test"])
 
     assert result.exit_code == 1
+
+
+def test_run_dry_run_makes_no_api_calls(monkeypatch):
+    monkeypatch.setattr(
+        cli_module, "GEMINI_API_KEY", None
+    )  # would fail fast if this path called out
+
+    result = runner.invoke(app, ["run", "--dry-run", "--categories", "sports,music_concert"])
+
+    assert result.exit_code == 0
+    assert "sports" in result.stdout
+    assert "music_concert" in result.stdout
+    assert "No API calls made" in result.stdout
+
+
+def test_run_aborts_without_api_key_when_not_dry_run(monkeypatch):
+    monkeypatch.setattr(cli_module, "GEMINI_API_KEY", None)
+
+    result = runner.invoke(app, ["run"])
+
+    assert result.exit_code == 1

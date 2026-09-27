@@ -11,7 +11,7 @@ def synthetic_pricing(monkeypatch):
     monkeypatch.setitem(
         cost_module.PRICING,
         "tokens_per_1m_usd",
-        {"test-model": {"input": 1.0, "output": 2.0, "thinking": 4.0}},
+        {"test-model": {"input": 1.0, "output": 2.0}},
     )
     monkeypatch.setitem(cost_module.PRICING, "grounded_search_per_1k_queries_usd", 10.0)
 
@@ -21,7 +21,9 @@ def test_price_tokens_uses_configured_rates():
     cost = ledger.price_tokens(
         "test-model", input_tokens=1_000_000, output_tokens=500_000, thinking_tokens=250_000
     )
-    assert cost == pytest.approx(1.0 + 1.0 + 1.0)
+    # input: 1_000_000 @ $1/1M = $1.00
+    # thinking is billed at the output rate (no separate rate): (500_000 + 250_000) @ $2/1M = $1.50
+    assert cost == pytest.approx(1.0 + 1.5)
 
 
 def test_price_tokens_unpriced_model_returns_zero():
