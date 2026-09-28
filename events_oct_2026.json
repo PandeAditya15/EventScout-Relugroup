@@ -1,0 +1,4060 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-28T03:27:08.772289Z",
+  "query": {
+    "city": "Munich",
+    "country_code": "DE",
+    "month": "2026-10"
+  },
+  "pipeline": {
+    "models": {
+      "discovery": "gemini-3.5-flash",
+      "cheap": "gemini-3.5-flash-lite"
+    },
+    "sources_used": [
+      "gemini_grounded_search"
+    ],
+    "search_queries_executed": 59,
+    "api_calls": 18,
+    "cache_hits": 2,
+    "estimated_cost_usd": 0.417348
+  },
+  "attributions": [
+    {
+      "source": "Google Search (via Gemini API grounding)",
+      "url": "https://ai.google.dev/gemini-api/docs/grounding",
+      "license_or_terms": "https://ai.google.dev/gemini-api/terms#grounding-with-google-search"
+    }
+  ],
+  "stats": {
+    "event_count": 35,
+    "by_category": {
+      "trade_fair_congress": 8,
+      "tech_business_conference": 8,
+      "music_concert": 8,
+      "festival_culture": 5,
+      "academic_community": 6
+    },
+    "by_source": {
+      "gemini_grounded_search": 35
+    },
+    "corroborated_count": 0,
+    "dropped_by_reason": {
+      "out_of_month": 0,
+      "wrong_location": 0,
+      "no_sources": 0
+    }
+  },
+  "events": [
+    {
+      "id": "expo-real-international-trade-fair-for-property-and-investment-2026-10-05-f3a9c0",
+      "name": "EXPO REAL (International Trade Fair for Property and Investment)",
+      "name_local": null,
+      "category": "trade_fair_congress",
+      "subcategory": null,
+      "description": "This is Europe’s largest B2B trade fair for property and investment. It covers the entire life cycle of the real estate sector—from conception, financing, and realization to marketing, operation, and smart-building integrations. It features extensive networking events and a high-level conference pro",
+      "dates": {
+        "start_date": "2026-10-05",
+        "end_date": "2026-10-07",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Trade Fair Center Messe München",
+        "address": "Am Messesee 2, 81829 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Messe München GmbH",
+      "url": "https://exporeal.net/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 44000,
+          "low": null,
+          "high": null,
+          "basis": "estimated",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "national"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "Real estate professionals",
+          "Investors",
+          "Developers",
+          "Property managers",
+          "Financiers"
+        ],
+        "industries": [
+          "Real estate",
+          "Investment",
+          "Finance",
+          "Construction",
+          "Property management"
+        ],
+        "interests": [
+          "Property investment",
+          "Real estate development",
+          "Smart-building technology",
+          "Real estate financing"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "The event is explicitly described as Europe's largest B2B trade fair for property and investment, covering the entire real estate sector."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE",
+              "GB",
+              "FR",
+              "CH",
+              "AT"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "high",
+        "confidence": "high",
+        "rationale": "Being designated as Europe's largest trade fair for the sector held in Munich indicates a strong international draw from across European property markets."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://messe-muenchen.de/en/events/expo-real-2026.html",
+            "title": "messe-muenchen.de",
+            "publisher_domain": "messe-muenchen.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.tradeindia.com/tradeshows/145652/expo-real-munich-2026.html",
+            "title": "tradeindia.com",
+            "publisher_domain": "www.tradeindia.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "performance-days-functional-fabric-fair-2026-10-13-dc0b64",
+      "name": "PERFORMANCE DAYS (Functional Fabric Fair)",
+      "name_local": null,
+      "category": "trade_fair_congress",
+      "subcategory": null,
+      "description": "A semi-annual B2B trade fair dedicated to functional and high-performance textiles. It serves as a major sourcing platform for fabrics, yarns, finishes, and accessories used in sportswear, activewear, and workwear. There is a heavy focus on sustainable innovations and circularity in textiles.",
+      "dates": {
+        "start_date": "2026-10-13",
+        "end_date": "2026-10-14",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Trade Fair Center Messe München",
+        "address": "Am Messesee 2, 81829 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Design & Development GmbH (PERFORMANCEDAYS)",
+      "url": "https://www.performancedays.com/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 3366,
+          "low": null,
+          "high": null,
+          "basis": "reported",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "Textile designers",
+          "Sourcing managers",
+          "Activewear manufacturers",
+          "Apparel developers"
+        ],
+        "industries": [
+          "Textiles",
+          "Apparel and fashion",
+          "Sportswear",
+          "Manufacturing"
+        ],
+        "interests": [
+          "Functional fabrics",
+          "Sustainable textiles",
+          "Circular economy in apparel",
+          "Textile sourcing"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "The description identifies it as a semi-annual B2B trade fair and major sourcing platform for functional and high-performance textiles."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE",
+              "IT",
+              "FR",
+              "GB"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "medium",
+        "confidence": "medium",
+        "rationale": "As a semi-annual trade fair held in Munich for functional fabrics, it attracts textile professionals primarily from European manufacturing and design hubs."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.blueprintexhibits.com/expo-real-germany/",
+            "title": "blueprintexhibits.com",
+            "publisher_domain": "www.blueprintexhibits.com",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://bhowco.de/events/expo-real/",
+            "title": "bhowco.de",
+            "publisher_domain": "bhowco.de",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "emove360-europe-international-conference-exhibition-for-electric-autonomous-mobility-2026-10-13-03d944",
+      "name": "eMove360° Europe (10th International Conference & Exhibition for Electric & Autonomous Mobility)",
+      "name_local": null,
+      "category": "trade_fair_congress",
+      "subcategory": null,
+      "description": "A highly focused B2B high-tech conference and compact exhibition dedicated to future mobility. It highlights electric vehicles, charging and energy systems, battery technologies, connected/autonomous driving, and the integration of AI in mobility.",
+      "dates": {
+        "start_date": "2026-10-13",
+        "end_date": "2026-10-14",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Holiday Inn Munich Westpark",
+        "address": "Albert-Roßhaupter-Straße 45, 81369 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "MunichExpo Veranstaltungs GmbH / eMove360 Media GmbH",
+      "url": "https://www.emove360.com/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "Automotive engineers",
+          "EV charging infrastructure providers",
+          "Mobility tech developers",
+          "Researchers"
+        ],
+        "industries": [
+          "Automotive",
+          "Electric vehicles",
+          "Energy systems",
+          "Artificial intelligence"
+        ],
+        "interests": [
+          "Electric mobility",
+          "Autonomous driving",
+          "Battery technologies",
+          "Energy systems integration"
+        ],
+        "languages": [
+          "English",
+          "German"
+        ],
+        "confidence": "high",
+        "rationale": "The event is defined as a highly focused B2B high-tech conference and exhibition dedicated to future electric and autonomous mobility."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE",
+              "FR",
+              "NL",
+              "SE"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "medium",
+        "confidence": "medium",
+        "rationale": "The international branding of the conference held in Munich suggests a strong draw of European tech and automotive professionals."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://travel2fair.com/exhibitions/expo-real",
+            "title": "travel2fair.com",
+            "publisher_domain": "travel2fair.com",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.blueprintexhibits.com/upcoming-exhibitions-in-munich-germany/",
+            "title": "blueprintexhibits.com",
+            "publisher_domain": "www.blueprintexhibits.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "maintenance-munich-2026-10-14-e927e2",
+      "name": "maintenance Munich",
+      "name_local": "maintenance München",
+      "category": "trade_fair_congress",
+      "subcategory": null,
+      "description": "A prominent regional B2B trade fair for industrial maintenance. It serves as a major business and technology network for southern German industries, showcasing predictive maintenance solutions, spare parts, and diagnostic tools.",
+      "dates": {
+        "start_date": "2026-10-14",
+        "end_date": "2026-10-15",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "MOC – Event Center Messe München",
+        "address": "Lilienthalallee 40, 80939 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Easyfairs Deutschland GmbH",
+      "url": "https://www.moc-muenchen.de/de/veranstaltungen/details/maintenance-munich-2026-12154",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "Maintenance managers",
+          "Industrial engineers",
+          "Plant operators",
+          "Technicians"
+        ],
+        "industries": [
+          "Industrial manufacturing",
+          "Industrial maintenance",
+          "Engineering"
+        ],
+        "interests": [
+          "Predictive maintenance",
+          "Industrial diagnostic tools",
+          "Spare parts management",
+          "Plant reliability"
+        ],
+        "languages": [
+          "German"
+        ],
+        "confidence": "high",
+        "rationale": "The description specifies it as a prominent regional B2B trade fair serving southern German industries for industrial maintenance."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Southern Germany",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "regional",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "high",
+        "rationale": "The event description explicitly positions it as a regional trade fair catering primarily to southern German industries."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://cms.law/en/int/events/cms-at-expo-real-2026",
+            "title": "cms.law",
+            "publisher_domain": "cms.law",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://interforst.com/en/trade-fair/",
+            "title": "interforst.com",
+            "publisher_domain": "interforst.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "interforst-international-key-trade-fair-for-forestry-and-forest-technology-2026-10-15-83a543",
+      "name": "INTERFORST (International Key Trade Fair for Forestry and Forest Technology)",
+      "name_local": "Internationale Leitmesse für Forstwirtschaft und Forsttechnik",
+      "category": "trade_fair_congress",
+      "subcategory": null,
+      "description": "A leading B2B trade show held every four years covering the entire forestry value chain. Exhibitors showcase technologies ranging from silviculture, forest care, and timber harvesting to digital forestry management and heavy forest logistics.",
+      "dates": {
+        "start_date": "2026-10-15",
+        "end_date": "2026-10-18",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Trade Fair Center Messe München",
+        "address": "Am Messesee 2, 81829 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Messe München GmbH",
+      "url": "https://interforst.com/en/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 46000,
+          "low": null,
+          "high": null,
+          "basis": "estimated",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "national"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "Foresters",
+          "Timber harvesting contractors",
+          "Forestry technology developers",
+          "Silviculturists"
+        ],
+        "industries": [
+          "Forestry",
+          "Timber industry",
+          "Heavy machinery",
+          "Digital forestry management"
+        ],
+        "interests": [
+          "Forest care",
+          "Timber harvesting",
+          "Silviculture technologies",
+          "Heavy forest logistics"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "It is stated as a leading B2B trade show covering the entire forestry value chain, from silviculture to heavy logistics."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE",
+              "AT",
+              "CH",
+              "FI",
+              "SE"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "high",
+        "confidence": "high",
+        "rationale": "As a leading international key trade fair held every four years in Munich, it attracts forestry professionals from major timber-producing European nations."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://exporeal.net/en/",
+            "title": "exporeal.net",
+            "publisher_domain": "exporeal.net",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.luminik.io/events/performance-days-functional-fabric-fair-munich-6a07482dae42/",
+            "title": "luminik.io",
+            "publisher_domain": "www.luminik.io",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "medientage-munchen-media-days-munich-2026-10-21-28e48f",
+      "name": "MEDIENTAGE MÜNCHEN (Media Days Munich)",
+      "name_local": null,
+      "category": "trade_fair_congress",
+      "subcategory": null,
+      "description": "Celebrating its 40th anniversary, this is one of Europe's most prominent media congresses and B2B exhibitions. Under the theme \"Own it!\", the event explores future paths for broadcasting, digital publishing, streaming, media policy, and the strategic deployment of artificial intelligence.",
+      "dates": {
+        "start_date": "2026-10-21",
+        "end_date": "2026-10-23",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "House of Communication",
+        "address": "Friedenstraße 24, 81671 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Medien.Bayern GmbH",
+      "url": "https://medientage.de/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 5000,
+          "low": null,
+          "high": null,
+          "basis": "reported",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "regional"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "Media professionals",
+          "Broadcasters",
+          "Digital publishers",
+          "Streaming executives",
+          "AI strategists"
+        ],
+        "industries": [
+          "Media",
+          "Broadcasting",
+          "Digital Publishing",
+          "Artificial Intelligence"
+        ],
+        "interests": [
+          "Media policy",
+          "Streaming technology",
+          "AI deployment",
+          "Broadcasting future"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "As a prominent media congress and B2B exhibition celebrating its 40th anniversary, it clearly targets professionals and stakeholders in broadcasting, digital publishing, and media policy."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "medium",
+        "confidence": "high",
+        "rationale": "Positioned as one of Europe's most prominent media congresses held in Munich, it primarily attracts German and European regional professionals."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.munich.travel/en/conventions-trade-fairs-and-events-in-munich",
+            "title": "munich.travel",
+            "publisher_domain": "www.munich.travel",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.nilorn.com/newsletter/nilorn-news-september-2026/",
+            "title": "nilorn.com",
+            "publisher_domain": "www.nilorn.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "hercareer-expo-2026-10-22-afb9f2",
+      "name": "herCAREER Expo",
+      "name_local": null,
+      "category": "trade_fair_congress",
+      "subcategory": null,
+      "description": "Europe's leading B2B and B2C career, networking, and female empowerment expo. The event connects job seekers, founders, employees, and companies across all hierarchies to discuss female career planning, workplace diversity, and professional growth.",
+      "dates": {
+        "start_date": "2026-10-22",
+        "end_date": "2026-10-23",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "MOC Veranstaltungscenter",
+        "address": "Lilienthalallee 40, 80939 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "messe.rocks GmbH",
+      "url": "https://hercareer.company/en/expo-for-companies/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 8000,
+          "low": null,
+          "high": null,
+          "basis": "reported",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "regional"
+      },
+      "audience": {
+        "type": "mixed",
+        "segments": [
+          "Job seekers",
+          "Founders",
+          "Employees",
+          "Corporate leaders"
+        ],
+        "industries": [
+          "Human Resources",
+          "Corporate Leadership",
+          "Professional Services"
+        ],
+        "interests": [
+          "Female career planning",
+          "Workplace diversity",
+          "Professional growth",
+          "Networking"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "The event explicitly targets both B2B and B2C participants, including job seekers, founders, employees, and companies across all hierarchies interested in empowerment and workplace diversity."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "national",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "medium",
+        "rationale": "As Europe's leading career expo held in Munich, it draws a strong national participant base with potential broader European reach."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.performancedays.com/press-releases.html?file=files/performancedays/content/press/press-releases/Englisch/PERFORMANCEDAYS_autumnedition_final%20pressrelease_10_25_engl.pdf&cid=43971",
+            "title": "performancedays.com",
+            "publisher_domain": "www.performancedays.com",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.performancedays.com/the-fair/about-the-fair/fair-facts-figures.html",
+            "title": "performancedays.com",
+            "publisher_domain": "www.performancedays.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "the-munich-show-mineralientage-munchen-2026-10-22-5e1efb",
+      "name": "The Munich Show - Mineralientage München",
+      "name_local": null,
+      "category": "trade_fair_congress",
+      "subcategory": null,
+      "description": "One of Europe's largest trade fairs for minerals, fossils, and gemstones. While it also has public visitor hours, its initial phases function heavily as a B2B trade and sales fair (including GEMWORLD and GEOFA banners) for international buyers and industry experts.",
+      "dates": {
+        "start_date": "2026-10-22",
+        "end_date": "2026-10-25",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Trade Fair Center Messe München",
+        "address": "Am Messesee 2, 81829 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Münchner Mineralientage Fachmesse GmbH",
+      "url": "https://munichshow.com/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 30000,
+          "low": null,
+          "high": null,
+          "basis": "reported",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "national"
+      },
+      "audience": {
+        "type": "mixed",
+        "segments": [
+          "International buyers",
+          "Industry experts",
+          "Public visitors"
+        ],
+        "industries": [
+          "Gemology",
+          "Mining",
+          "Retail and Wholesale"
+        ],
+        "interests": [
+          "Minerals",
+          "Fossils",
+          "Gemstones",
+          "Trade and sales"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "The event description highlights both public visitor hours and initial B2B trade and sales phases for international buyers and industry experts."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "high",
+        "confidence": "high",
+        "rationale": "Being one of Europe's largest trade fairs with 30,000 attendees and specialized B2B banners specifically for international buyers guarantees a strong international attendance mix."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.emove360.com/",
+            "title": "emove360.com",
+            "publisher_domain": "www.emove360.com",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.expostandservice.com/emove360-europe/",
+            "title": "expostandservice.com",
+            "publisher_domain": "www.expostandservice.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "the-business-booster-tbb-2026-10-28-3c8289",
+      "name": "The Business Booster (TBB) 2026",
+      "name_local": null,
+      "category": "tech_business_conference",
+      "subcategory": null,
+      "description": "This is EIT InnoEnergy's flagship annual clean-tech event. It serves as a major gathering for the European sustainable energy sector, bringing together clean-tech startups, scaleups, investors, corporate leaders, and policymakers to accelerate the transition to net-zero. The two-day event features a",
+      "dates": {
+        "start_date": "2026-10-28",
+        "end_date": "2026-10-29",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Messe München",
+        "address": "Hall A6, Am Messesee 2, 81829 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "EIT InnoEnergy",
+      "url": "https://tbb.innoenergy.com/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 1800,
+          "low": null,
+          "high": null,
+          "basis": "estimated",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "Clean-tech startups",
+          "Scaleups",
+          "Investors",
+          "Corporate leaders",
+          "Policymakers"
+        ],
+        "industries": [
+          "Clean Technology",
+          "Sustainable Energy",
+          "Investment and Venture Capital"
+        ],
+        "interests": [
+          "Net-zero transition",
+          "Sustainable energy",
+          "B2B matchmaking",
+          "Clean-tech innovation"
+        ],
+        "languages": [
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "Serving as a flagship annual clean-tech event featuring structured B2B matchmaking meetings, it targets startups, scaleups, investors, and corporate leaders."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "high",
+        "confidence": "high",
+        "rationale": "As EIT InnoEnergy's flagship European clean-tech event, it gathers participants from across the European sustainable energy sector."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://tbb.innoenergy.com/",
+            "title": "innoenergy.com",
+            "publisher_domain": "tbb.innoenergy.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "promcon-europe-2026-10-07-556297",
+      "name": "PromCon Europe 2026",
+      "name_local": "PromCon EU 2026",
+      "category": "tech_business_conference",
+      "subcategory": null,
+      "description": "PromCon is the premier European conference dedicated entirely to the open-source Prometheus monitoring system. Hosted as a vendor-neutral event under the Linux Foundation, it connects developers, systems architects, and users from around the world to share knowledge, best practices, and the latest t",
+      "dates": {
+        "start_date": "2026-10-07",
+        "end_date": "2026-10-08",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Google Munich Office",
+        "address": "10X Event Space, Erika-Mann-Straße 33, 80636 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Prometheus Authors, backed by the Cloud Native Computing Foundation (CNCF) and The Linux Foundation",
+      "url": "https://promcon.io/2026-munich/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 200,
+          "low": null,
+          "high": null,
+          "basis": "reported",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "Developers",
+          "Systems architects",
+          "System users"
+        ],
+        "industries": [
+          "Information Technology",
+          "Software Development",
+          "Cloud Computing and Infrastructure"
+        ],
+        "interests": [
+          "Prometheus monitoring system",
+          "Systems and service monitoring",
+          "Observability at scale",
+          "Open-source software"
+        ],
+        "languages": [
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "Dedicated entirely to the open-source Prometheus monitoring system, it explicitly connects developers, architects, and users for technical knowledge sharing."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "high",
+        "confidence": "high",
+        "rationale": "As the premier European conference connecting users and developers from around the world to a Munich venue, it attracts a highly international technical crowd."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.youtube.com/watch?v=CDyk6_qt8dE&vl=en",
+            "title": "youtube.com",
+            "publisher_domain": "www.youtube.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "munich-quantum-software-forum-mqsf-2026-10-14-37f29d",
+      "name": "Munich Quantum Software Forum 2026 (#MQSF)",
+      "name_local": null,
+      "category": "tech_business_conference",
+      "subcategory": null,
+      "description": "This forum brings together the global \"who’s who\" of quantum computing software, including researchers, developers, industry pioneers, and end-users. Designed to advance the rapidly evolving field of quantum software, the conference showcases state-of-the-art solutions, hosts high-level panels, and ",
+      "dates": {
+        "start_date": "2026-10-14",
+        "end_date": "2026-10-15",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Backstage Kulturzentrum",
+        "address": "Backstage Arena, Reitknechtstraße 6, 80639 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Munich Quantum Software Company (MQSC), with support from the Technical University of Munich (TUM) and Munich Quantum Valley (MQV)",
+      "url": "https://www.munich-quantum-software-forum.org/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "Researchers",
+          "Developers",
+          "Industry Pioneers",
+          "End-users"
+        ],
+        "industries": [
+          "Quantum Computing",
+          "Technology",
+          "Software Development"
+        ],
+        "interests": [
+          "Quantum Software",
+          "State-of-the-art Solutions",
+          "Research Panels"
+        ],
+        "languages": [
+          "English",
+          "German"
+        ],
+        "confidence": "high",
+        "rationale": "The forum is explicitly designed to bring together global professionals, researchers, and industry pioneers in quantum computing software."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Global / International",
+            "country_codes": [
+              "DE",
+              "US",
+              "GB",
+              "CA"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "high",
+        "confidence": "high",
+        "rationale": "The event description highlights that it brings together the global who is who of quantum computing software."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.eit.europa.eu/news-events/events/business-booster-2026",
+            "title": "europa.eu",
+            "publisher_domain": "www.eit.europa.eu",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "itcs-munich-2026-10-30-74c485",
+      "name": "ITCS Munich 2026",
+      "name_local": "ITCS - Tech Conference, Career Fair & Festival",
+      "category": "tech_business_conference",
+      "subcategory": null,
+      "description": "ITCS is an interactive talent and recruiting event designed for IT students, young professionals, and experienced tech experts. It blends a technology conference (featuring over 40 talks on AI, cloud computing, cybersecurity, and big data) with a comprehensive job expo and a festival atmosphere, com",
+      "dates": {
+        "start_date": "2026-10-30",
+        "end_date": "2026-10-30",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "MOC Event Center Munich",
+        "address": "Lilienthalallee 40, 80939 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "ITCS (IT-CS.io)",
+      "url": "https://it-cs.io/events/itcs-muenchen/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "mixed",
+        "segments": [
+          "IT Students",
+          "Young Professionals",
+          "Tech Experts",
+          "Recruiters"
+        ],
+        "industries": [
+          "Information Technology",
+          "Artificial Intelligence",
+          "Cybersecurity",
+          "Cloud Computing"
+        ],
+        "interests": [
+          "Tech Careers",
+          "AI",
+          "Cloud Computing",
+          "Job Expo"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "The event targets IT students, young professionals, and experienced tech experts seeking recruitment alongside a tech conference."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Germany",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "national",
+            "share": "high"
+          }
+        ],
+        "international_share": "medium",
+        "confidence": "medium",
+        "rationale": "Hosted in Munich at the MOC Event Center, it attracts a broad national audience of tech talent and companies."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://elestor.com/event/the-business-booster-2026",
+            "title": "elestor.com",
+            "publisher_domain": "elestor.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "personalmesse-munchen-2026-10-20-b375c8",
+      "name": "Personalmesse München 2026",
+      "name_local": "Personalmesse München 2026 powered by Zukunft Personal",
+      "category": "tech_business_conference",
+      "subcategory": null,
+      "description": "This is the primary regional trade fair and conference for human resources management, recruiting, and corporate professional development in Southern Germany, Austria, and Switzerland. The fair features roughly 100 sessions on topics like AI and digitization in HR, leadership, corporate health, and ",
+      "dates": {
+        "start_date": "2026-10-20",
+        "end_date": "2026-10-21",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "MOC Event Center Messe München",
+        "address": "Hall 1, Lilienthalallee 40, 80939 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "CloserStill Media (Zukunft Personal)",
+      "url": "https://www.zukunft-personal.com/de/personalmesse-muenchen",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "HR Managers",
+          "Recruiters",
+          "Corporate Executives",
+          "SME Executives"
+        ],
+        "industries": [
+          "Human Resources",
+          "Corporate Professional Development",
+          "HR Software"
+        ],
+        "interests": [
+          "HR Digitization",
+          "Leadership",
+          "Talent Acquisition",
+          "Corporate Health"
+        ],
+        "languages": [
+          "German"
+        ],
+        "confidence": "high",
+        "rationale": "The trade fair is specifically targeted at human resources management, corporate professional development, and SME executives."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "DACH Region (Germany, Austria, Switzerland)",
+            "country_codes": [
+              "DE",
+              "AT",
+              "CH"
+            ],
+            "scope": "regional",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "high",
+        "rationale": "The description explicitly defines it as the primary regional trade fair for Southern Germany, Austria, and Switzerland."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.eventfullexhibitions.co.uk/calendar-events/the-business-booster-2026",
+            "title": "eventfullexhibitions.co.uk",
+            "publisher_domain": "www.eventfullexhibitions.co.uk",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "the-munich-ai-conference-2026-10-21-8f10d3",
+      "name": "The Munich AI Conference 2026",
+      "name_local": null,
+      "category": "tech_business_conference",
+      "subcategory": null,
+      "description": "An evening conference, networking, and discussion forum dedicated to artificial intelligence strategies and implementation. The event is tailored for executives, founders, and technology managers within Munich’s AI ecosystem, with a central panel discussion titled \"AI in the Real World – Moving from",
+      "dates": {
+        "start_date": "2026-10-21",
+        "end_date": "2026-10-21",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "codecentric Munich",
+        "address": "August-Everding-Straße 20, 81671 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Startup Network Europe & codecentric",
+      "url": "https://baiosphere.org/events/munich-ai-conference-2026/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 120,
+          "low": null,
+          "high": null,
+          "basis": "reported",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "Executives",
+          "Founders",
+          "Technology Managers"
+        ],
+        "industries": [
+          "Artificial Intelligence",
+          "Technology",
+          "Software"
+        ],
+        "interests": [
+          "AI Strategies",
+          "Scalable Execution",
+          "AI Ecosystem Networking"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "The event is tailored for executives, founders, and technology managers within a specific local ecosystem."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Munich Metropolitan Region",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "local",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "high",
+        "rationale": "The conference is explicitly tailored for executives and managers within Munich's local AI ecosystem."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://steady-sun.com/calendar/tbb-2026/",
+            "title": "steady-sun.com",
+            "publisher_domain": "steady-sun.com",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://conf.researchr.org/home/ase-2026",
+            "title": "researchr.org",
+            "publisher_domain": "conf.researchr.org",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://callforpaper.org/country/germany",
+            "title": "callforpaper.org",
+            "publisher_domain": "callforpaper.org",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "startup-work-2026-10-16-e897ee",
+      "name": "Startup WORK 2026",
+      "name_local": "Startup WORK – Job Messe & Open House Day",
+      "category": "tech_business_conference",
+      "subcategory": null,
+      "description": "WERK1's dedicated job fair and open-house day for the Munich startup scene. The event serves as a local ecosystem networking platform, allowing ambitious startups to present themselves, pitch to candidates, and recruit top talents through workshops, speed networking, and Q&A sessions with founders.",
+      "dates": {
+        "start_date": "2026-10-16",
+        "end_date": "2026-10-16",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "WERK1",
+        "address": "Am Kartoffelgarten 14, 81671 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "WERK1",
+      "url": "https://www.werk1.com/events-im-werk1/startup-work",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "mixed",
+        "segments": [
+          "Job Seekers",
+          "Tech Talent",
+          "Startup Founders",
+          "Students"
+        ],
+        "industries": [
+          "Startups",
+          "Technology",
+          "Venture Business"
+        ],
+        "interests": [
+          "Startup Careers",
+          "Speed Networking",
+          "Tech Recruiting"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "It serves as a job fair and open-house day bringing together ambitious startups and candidates looking to be recruited."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Munich Area",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "local",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "high",
+        "rationale": "The event is WERK1's dedicated job fair and open-house day serving the local Munich startup scene."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.expofinder.com/en/detail/0tVmI784",
+            "title": "expofinder.com",
+            "publisher_domain": "www.expofinder.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "transform-beyond-by-expo-real-2026-10-05-5b3086",
+      "name": "Transform & Beyond by EXPO REAL 2026",
+      "name_local": null,
+      "category": "tech_business_conference",
+      "subcategory": null,
+      "description": "While EXPO REAL is traditionally a real estate and property investment fair, \"Transform & Beyond\" is its specialized, tech-focused exhibition and conference sub-event. It is entirely dedicated to future transformation technologies in the built environment, showcasing smart buildings, AI, robotics, d",
+      "dates": {
+        "start_date": "2026-10-05",
+        "end_date": "2026-10-07",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Trade Fair Center Messe München",
+        "address": "Hall A3, Am Messesee 2, 81829 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Messe München GmbH",
+      "url": "https://exporeal.net/en/trade-fair/topics/transform-beyond/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "real estate professionals",
+          "proptech innovators",
+          "tech investors",
+          "architects",
+          "urban planners"
+        ],
+        "industries": [
+          "real estate",
+          "technology",
+          "construction",
+          "venture capital"
+        ],
+        "interests": [
+          "smart buildings",
+          "AI",
+          "robotics",
+          "decarbonization",
+          "proptech"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "As a specialized tech-focused sub-event of a major property fair held at a trade center, it naturally attracts industry professionals and investors."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE",
+              "AT",
+              "CH"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "medium",
+        "confidence": "medium",
+        "rationale": "Being a trade fair hosted at a major European exhibition center, it draws regional and international industry visitors primarily from German-speaking countries and wider Europe."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://promcon.io/",
+            "title": "promcon.io",
+            "publisher_domain": "promcon.io",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "apache-207-arena-tour-2026-10-01-5cce37",
+      "name": "Apache 207 – Arena Tour 2026",
+      "name_local": null,
+      "category": "music_concert",
+      "subcategory": null,
+      "description": "A large-scale arena show by the highly successful German rapper and singer Apache 207, known for his unique blend of German rap, pop, R&B, and 80s synth-pop elements.",
+      "dates": {
+        "start_date": "2026-10-01",
+        "end_date": "2026-10-02",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Olympiahalle",
+        "address": "Spiridon-Louis-Ring 21, 80809 Munich",
+        "district": "Olympiapark / Am Riesenfeld district",
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "PRK DreamHaus GmbH",
+      "url": "https://www.olympiapark.de/de/veranstaltungen/apache-207-e11530",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "music fans",
+          "concert goers",
+          "youth"
+        ],
+        "industries": [
+          "music",
+          "entertainment"
+        ],
+        "interests": [
+          "German rap",
+          "pop",
+          "R&B",
+          "80s synth-pop",
+          "live concerts"
+        ],
+        "languages": [
+          "German"
+        ],
+        "confidence": "high",
+        "rationale": "A large-scale arena tour by a successful German rapper and singer is designed to appeal directly to general music consumers and fans."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Germany",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "national",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "high",
+        "rationale": "An arena show by a famous domestic German-language music artist primarily attracts a national audience from within Germany."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOnZg8D6kW_TGcw4Zo3poxjKuBJ4SrwETMRXwpOgjsaXI-MYFb2aHTJI8xRjuXW1_J7pdEe6J3EDyay8X7UjFgrHb-9UlfgKSHz7g-5ZTroyC9jlefhY-LIBRjCZZb-6aXYsje2M3cg5gsJ_XmeWMCR05MjnyXVhgWeBqL",
+            "title": "muenchenticket.de",
+            "publisher_domain": "vertexaisearch.cloud.google.com",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.in-muenchen.de/events/apache-207.html",
+            "title": "in-muenchen.de",
+            "publisher_domain": "www.in-muenchen.de",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "bryan-adams-roll-with-the-punches-tour-2026-10-05-193660",
+      "name": "Bryan Adams – Roll With The Punches Tour 2026",
+      "name_local": null,
+      "category": "music_concert",
+      "subcategory": null,
+      "description": "Legendary Canadian rock singer-songwriter Bryan Adams brings his \"Roll With The Punches Tour\" to Munich, performing new music and his catalog of classic rock hits spanning over four decades.",
+      "dates": {
+        "start_date": "2026-10-05",
+        "end_date": "2026-10-05",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Olympiahalle",
+        "address": "Spiridon-Louis-Ring 21, 80809 Munich",
+        "district": "Olympiapark / Am Riesenfeld district",
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Live Nation GmbH",
+      "url": "https://www.olympiapark.de/de/veranstaltungen/bryan-adams-roll-with-the-punches-tour-2026-e11588",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "rock music fans",
+          "concert goers",
+          "multi-generational music lovers"
+        ],
+        "industries": [
+          "music",
+          "entertainment"
+        ],
+        "interests": [
+          "classic rock",
+          "live music",
+          "rock singer-songwriters"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "A concert by a legendary international rock singer-songwriter performing classic hits attracts a broad fan base of music enthusiasts."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE",
+              "AT"
+            ],
+            "scope": "regional",
+            "share": "high"
+          }
+        ],
+        "international_share": "medium",
+        "confidence": "medium",
+        "rationale": "Performances by globally established heritage rock artists in major European cities typically draw local and neighboring regional attendees."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.olympiapark.de/de/veranstaltungen/apache-207-n4636",
+            "title": "olympiapark.de",
+            "publisher_domain": "www.olympiapark.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://de.wikipedia.org/wiki/Olympiahalle_M%C3%BCnchen",
+            "title": "wikipedia.org",
+            "publisher_domain": "de.wikipedia.org",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "gims-europe-tour-2026-10-11-6cca51",
+      "name": "GIMS – Europe Tour 2026",
+      "name_local": null,
+      "category": "music_concert",
+      "subcategory": null,
+      "description": "A high-energy live performance by French rap, pop, and R&B superstar Gims (formerly of the collective Sexion d'Assaut) as part of his European tour.",
+      "dates": {
+        "start_date": "2026-10-11",
+        "end_date": "2026-10-11",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Zenith, die Kulturhalle",
+        "address": "Lilienthalallee 29, 80939 Munich",
+        "district": "Freimann district",
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": null,
+      "url": "https://www.in-muenchen.de/veranstaltungen/konzerte/gims-muenchen-2026-9324522.html",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "urban music fans",
+          "concert goers"
+        ],
+        "industries": [
+          "music",
+          "entertainment"
+        ],
+        "interests": [
+          "French rap",
+          "pop",
+          "R&B",
+          "live performance"
+        ],
+        "languages": [
+          "French",
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "A tour stop by a major French superstar performing rap and pop music targets fans of contemporary popular urban music."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE",
+              "FR"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "medium",
+        "confidence": "medium",
+        "rationale": "As part of an explicit European tour by a French artist, the audience consists of local fans and travelers from neighboring countries including France."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.in-muenchen.de/locations/olympiahalle.html?seite=2",
+            "title": "in-muenchen.de",
+            "publisher_domain": "www.in-muenchen.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.muenchenticket.de/spielstaette/olympiapark-munchen/?seite=4",
+            "title": "muenchenticket.de",
+            "publisher_domain": "www.muenchenticket.de",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "behemoth-dimmu-borgir-in-league-with-satan-co-headline-tour-2026-10-14-870791",
+      "name": "Behemoth & Dimmu Borgir – In League With Satan Co-Headline Tour 2026",
+      "name_local": null,
+      "category": "music_concert",
+      "subcategory": null,
+      "description": "A massive extreme metal co-headlining package featuring Polish blackened death metal masters Behemoth and Norwegian symphonic black metal pioneers Dimmu Borgir, supported by Swedish black metal veterans Dark Funeral.",
+      "dates": {
+        "start_date": "2026-10-14",
+        "end_date": "2026-10-14",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Zenith, die Kulturhalle",
+        "address": "Lilienthalallee 29, 80939 Munich",
+        "district": "Freimann district",
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Global Concerts GmbH",
+      "url": "https://www.muenchenticket.de/tickets/performances/elg2e430pda3/Behemoth-Dimmu-Borgir",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "metal fans",
+          "subculture enthusiasts",
+          "concert goers"
+        ],
+        "industries": [
+          "music",
+          "entertainment"
+        ],
+        "interests": [
+          "extreme metal",
+          "blackened death metal",
+          "symphonic black metal",
+          "live heavy metal"
+        ],
+        "languages": [
+          "English",
+          "German"
+        ],
+        "confidence": "high",
+        "rationale": "A co-headlining package of prominent extreme metal bands explicitly targets dedicated fans of heavy metal subgenres."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE",
+              "AT",
+              "CH"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "high",
+        "confidence": "medium",
+        "rationale": "Niche extreme metal tours featuring notable international headliners from Poland, Norway, and Sweden draw dedicated fans from across multiple countries who travel for rare packages."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.prk-dreamhaus.com/talent/apache-207",
+            "title": "prk-dreamhaus.com",
+            "publisher_domain": "www.prk-dreamhaus.com",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.olympiapark.de/de/veranstaltungen/bryan-adams-n5570",
+            "title": "olympiapark.de",
+            "publisher_domain": "www.olympiapark.de",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "korn-euro-tour-2026-10-19-3f0304",
+      "name": "Korn – Euro Tour 2026",
+      "name_local": null,
+      "category": "music_concert",
+      "subcategory": null,
+      "description": "Nu metal pioneers Korn make their headlining debut at the Olympiahalle, accompanied by special guests Architects and opening act Youth Code.",
+      "dates": {
+        "start_date": "2026-10-19",
+        "end_date": "2026-10-19",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Olympiahalle",
+        "address": "Spiridon-Louis-Ring 21, 80809 Munich",
+        "district": "Olympiapark / Am Riesenfeld district",
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Live Nation GmbH",
+      "url": "https://www.olympiapark.de/de/veranstaltungen/korn-euro-tour-2026-e11663",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "music fans",
+          "metal fans"
+        ],
+        "industries": [
+          "music",
+          "entertainment"
+        ],
+        "interests": [
+          "nu metal",
+          "rock music",
+          "concerts"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "As a nu metal headlining concert featuring established bands, it will clearly attract consumer music fans interested in rock and metal."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Bavaria",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "national",
+            "share": "high"
+          }
+        ],
+        "international_share": "medium",
+        "confidence": "medium",
+        "rationale": "An arena tour stop in Munich will primarily draw local and national fans from Germany, with some regional European travelers."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.konzertsuche.de/konzert/bryan-adams-olympiahalle-5-oktober",
+            "title": "konzertsuche.de",
+            "publisher_domain": "www.konzertsuche.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.livenation.de/event/bryan-adams-roll-with-the-punches-tour-m%C3%BCnchen-tickets-edp1654381",
+            "title": "livenation.de",
+            "publisher_domain": "www.livenation.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.in-muenchen.de/events/gims.html",
+            "title": "in-muenchen.de",
+            "publisher_domain": "www.in-muenchen.de",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "the-world-of-hans-zimmer-a-new-dimension-2026-10-20-4cd46e",
+      "name": "The World of Hans Zimmer – A New Dimension",
+      "name_local": null,
+      "category": "music_concert",
+      "subcategory": null,
+      "description": "A stunning symphonic arena show showcasing newly curated orchestral suites of legendary film composer Hans Zimmer's scores (including Dune, The Lion King, and Gladiator), conducted by Matt Dunkley and paired with dramatic visual projections. Hans Zimmer serves as curator but does not perform live.",
+      "dates": {
+        "start_date": "2026-10-20",
+        "end_date": "2026-10-20",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Olympiahalle",
+        "address": "Spiridon-Louis-Ring 21, 80809 Munich",
+        "district": "Olympiapark / Am Riesenfeld district",
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Semmel Concerts Entertainment GmbH",
+      "url": "https://www.olympiapark.de/de/veranstaltungen/the-world-of-hans-zimmer-e9692",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "film score fans",
+          "orchestral music lovers"
+        ],
+        "industries": [
+          "film",
+          "music"
+        ],
+        "interests": [
+          "soundtracks",
+          "orchestral music",
+          "cinema"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "A symphonic arena show showcasing legendary film scores appeals broadly to general consumers interested in cinema and orchestral music."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Bavaria",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "national",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "medium",
+        "rationale": "Hosted at the Olympiahalle in Munich, the event will predominantly attract attendees from Germany."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.muenchen.de/veranstaltungen/veranstaltungsorte/zenith",
+            "title": "muenchen.de",
+            "publisher_domain": "www.muenchen.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJmzgg_acptSCug4SAvVCItFvtmvx7DgLVDhB9DRxdjwzq4na50BmHgEdsiIJPxcM66iayym7ExMTpIIzi-00PZy3j7zlt0hfm6WFLv7--ETxWbwv7uTzUEgHhCol5sl-5mLJ6AJt6zCYpp4AXjdEvGb2cF_s0FWyREh4UaRgsXYmm",
+            "title": "eventim.de",
+            "publisher_domain": "vertexaisearch.cloud.google.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "simple-plan-bigger-than-you-think-europe-tour-2026-10-23-16a23a",
+      "name": "Simple Plan – Bigger Than You Think! Europe Tour 2026",
+      "name_local": null,
+      "category": "music_concert",
+      "subcategory": null,
+      "description": "Canadian pop-punk band Simple Plan returns to Munich on their major European tour, joined by special guests Neck Deep and Charlotte Sands.",
+      "dates": {
+        "start_date": "2026-10-23",
+        "end_date": "2026-10-23",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Zenith, die Kulturhalle",
+        "address": "Lilienthalallee 29, 80939 Munich",
+        "district": "Freimann district",
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Live Nation GmbH",
+      "url": "https://www.livenation.de/show/1538731/simple-plan-bigger-than-you-think-europe-tour-2026/munchen/2026-10-23/de",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "pop-punk fans",
+          "youth"
+        ],
+        "industries": [
+          "music"
+        ],
+        "interests": [
+          "pop-punk",
+          "alternative rock",
+          "live music"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "A major European tour by a well-known pop-punk band targets consumer music fans of alternative and punk genres."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Bavaria",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "national",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "medium",
+        "rationale": "Concerts at Zenith in Munich typically draw predominantly local and national fans."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.muenchenticket.de/event/behemoth-and-dimmu-borgir-36026/",
+            "title": "muenchenticket.de",
+            "publisher_domain": "www.muenchenticket.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://rausgegangen.de/en/events/behemoth-dimmu-borgir-in-league-with-satan-tour-2026-0/",
+            "title": "rausgegangen.de",
+            "publisher_domain": "rausgegangen.de",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "synthony-europe-tour-2026-10-30-90a42b",
+      "name": "SYNTHONY – Europe Tour 2026",
+      "name_local": null,
+      "category": "music_concert",
+      "subcategory": null,
+      "description": "A high-production, immersive performance that blends iconic electronic dance music anthems (including tracks from Avicii, Calvin Harris, and David Guetta) with a live orchestra, vocalists, DJs, and state-of-the-art visuals.",
+      "dates": {
+        "start_date": "2026-10-30",
+        "end_date": "2026-10-30",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Olympiahalle",
+        "address": "Spiridon-Louis-Ring 21, 80809 Munich",
+        "district": "Olympiapark / Am Riesenfeld district",
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Alegria Konzert GmbH",
+      "url": "https://www.olympiapark.de/de/veranstaltungen/synthony-europe-tour-2026-e11791",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "electronic music fans",
+          "festivalgoers"
+        ],
+        "industries": [
+          "music",
+          "entertainment"
+        ],
+        "interests": [
+          "electronic dance music",
+          "orchestral music",
+          "nightlife"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "Blending electronic dance music anthems with a live orchestra creates a consumer-focused entertainment experience for music enthusiasts."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Bavaria",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "national",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "medium",
+        "rationale": "An arena tour stop in Munich is expected to draw mostly local and national attendees."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.facebook.com/events/zenith-die-kulturhalle-m%C3%BCnchen/behemoth-dimmu-borgir-in-league-with-satan-co-headline-tour-m%C3%BCnchen-2026/740844322362423/",
+            "title": "facebook.com",
+            "publisher_domain": "www.facebook.com",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.muenchenticket.de/event/behemoth-and-dimmu-borgir-36026/",
+            "title": "muenchenticket.de",
+            "publisher_domain": "www.muenchenticket.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.olympiapark.de/de/veranstaltungen/korn-n5616",
+            "title": "olympiapark.de",
+            "publisher_domain": "www.olympiapark.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.in-muenchen.de/events/korn.html",
+            "title": "in-muenchen.de",
+            "publisher_domain": "www.in-muenchen.de",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "oktoberfest-2026-09-19-cf4438",
+      "name": "Oktoberfest 2026",
+      "name_local": "Oktoberfest",
+      "category": "festival_culture",
+      "subcategory": null,
+      "description": "The world’s largest folk festival (Volksfest), combining a massive beer festival with traditional parades, a funfair, brass bands, and Bavarian cuisine. Key events overlapping October include the closing weekend, a traditional ecumenical service, and the traditional gun salute.",
+      "dates": {
+        "start_date": "2026-09-19",
+        "end_date": "2026-10-04",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Theresienwiese",
+        "address": "80336 Munich, Germany",
+        "district": "Ludwigsvorstadt-Isarvorstadt",
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "City of Munich, Department of Labor and Economic Development (Referat für Arbeit und Wirtschaft – RAW)",
+      "url": "https://www.oktoberfest.de/en",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 6000000,
+          "low": null,
+          "high": null,
+          "basis": "reported",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "international"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "tourists",
+          "cultural festivalgoers",
+          "general public"
+        ],
+        "industries": [
+          "tourism",
+          "hospitality",
+          "food and beverage"
+        ],
+        "interests": [
+          "folk festivals",
+          "beer",
+          "traditional culture",
+          "Bavarian cuisine"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "As the world's largest folk festival combining beer, funfairs, and traditional culture, it draws a massive, broad public consumer audience."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Bavaria",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "high",
+        "confidence": "high",
+        "rationale": "With a reported attendance of 6 million, the world's largest folk festival inherently draws a high volume of international and national tourists alongside locals."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.oktoberfest.de/en",
+            "title": "oktoberfest.de",
+            "publisher_domain": "www.oktoberfest.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.muenchen.de/veranstaltungen/oktober",
+            "title": "muenchen.de",
+            "publisher_domain": "www.muenchen.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://pretix.eu/MDSI.TUM/career-fair-2026/",
+            "title": "pretix.eu",
+            "publisher_domain": "pretix.eu",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.eventbrite.ie/e/the-munich-ai-conference-2026-tickets-1980704108307",
+            "title": "eventbrite.ie",
+            "publisher_domain": "www.eventbrite.ie",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "auer-dult-kirchweihdult-2026-10-17-b8dfe2",
+      "name": "Auer Dult – Kirchweihdult 2026",
+      "name_local": "Auer Dult – Kirchweihdult",
+      "category": "festival_culture",
+      "subcategory": null,
+      "description": "A cozy and traditional Bavarian outdoor market and folk festival. It marks the final event of the three seasonal annual Auer Dults (following spring's Maidult and summer's Jakobidult). It features over 250 market stalls selling porcelain, ceramics, household items, and antiques, paired with classic ",
+      "dates": {
+        "start_date": "2026-10-17",
+        "end_date": "2026-10-25",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Mariahilfplatz",
+        "address": "81541 Munich, Germany",
+        "district": "Au-Haidhausen",
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "City of Munich, Department of Labor and Economic Development (Referat für Arbeit und Wirtschaft – RAW)",
+      "url": "https://www.muenchen.de/en/shopping/auer-dult-munich-dates-tips",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 300000,
+          "low": null,
+          "high": null,
+          "basis": "reported",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "international"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "Families",
+          "Local Residents",
+          "Tourists",
+          "Shoppers"
+        ],
+        "industries": [
+          "Retail",
+          "Hospitality",
+          "Tourism"
+        ],
+        "interests": [
+          "Traditional Culture",
+          "Antiques",
+          "Food and Drink",
+          "Shopping",
+          "Fairs"
+        ],
+        "languages": [
+          "German"
+        ],
+        "confidence": "high",
+        "rationale": "A traditional Bavarian folk festival and outdoor market with household items, antiques, and fairground rides naturally attracts a broad local B2C consumer audience and families."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Bavaria",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "regional",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "high",
+        "rationale": "As a seasonal traditional folk market in Munich, it primarily draws regional visitors from Bavaria and local residents."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://en.wikipedia.org/wiki/Oktoberfest",
+            "title": "wikipedia.org",
+            "publisher_domain": "en.wikipedia.org",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.leshuttle.com/uk-en/discover/traveller-guides/oktoberfest-in-munich",
+            "title": "leshuttle.com",
+            "publisher_domain": "www.leshuttle.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "the-long-night-of-munich-s-museums-2026-10-17-80411e",
+      "name": "The Long Night of Munich's Museums 2026",
+      "name_local": "Die Lange Nacht der Münchner Museen",
+      "category": "festival_culture",
+      "subcategory": null,
+      "description": "A massive city-wide cultural celebration where over 100 museums, collections, galleries, and unique venues open late to the public from 6:00 PM to 1:00 AM. The venues are networked together by five dedicated municipal shuttle bus routes, allowing ticket-holders to hop between events. A specialized c",
+      "dates": {
+        "start_date": "2026-10-17",
+        "end_date": "2026-10-18",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Over 100 locations across Munich (including major sites such as the Deutsches Museum, Pinakothek galleries, and the BMW Museum)",
+        "address": null,
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Münchner Kultur GmbH",
+      "url": "https://www.muenchner.de/museumsnacht/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 30000,
+          "low": null,
+          "high": null,
+          "basis": "reported",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "national"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "Art Enthusiasts",
+          "Families",
+          "Local Residents",
+          "Culture Lovers"
+        ],
+        "industries": [
+          "Arts and Culture",
+          "Education",
+          "Tourism"
+        ],
+        "interests": [
+          "Museums",
+          "History",
+          "Art",
+          "Science",
+          "Family Activities"
+        ],
+        "languages": [
+          "German"
+        ],
+        "confidence": "high",
+        "rationale": "A city-wide cultural night featuring over 100 museums and a specialized children's program draws a diverse public audience of local residents and regional visitors."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Bavaria",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "regional",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "high",
+        "rationale": "The event spans over 100 municipal locations and utilizes dedicated municipal bus routes, indicating a primary local and regional civic audience."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.muenchen.de/en/events/oktoberfest",
+            "title": "muenchen.de",
+            "publisher_domain": "www.muenchen.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://agents.leamigo.com/blogs/oktoberfest-in-munich-2026",
+            "title": "leamigo.com",
+            "publisher_domain": "agents.leamigo.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "munich-crime-festival-2026-10-01-9f0511",
+      "name": "Munich Crime Festival 2026",
+      "name_local": "Krimifestival München",
+      "category": "festival_culture",
+      "subcategory": null,
+      "description": "A highly acclaimed international literary festival dedicated to mystery and thriller literature. Celebrated German-speaking and international authors read from their latest works at atmospheric, themed \"crime scene\" venues across the city, such as forensic lecture halls, pathology departments, and l",
+      "dates": {
+        "start_date": "2026-10-01",
+        "end_date": "2026-11-28",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Various atmospheric venues across Munich, including the Institute of Legal Medicine and Munich Clinic Schwabing's Pathological Institute",
+        "address": "Schillerstr./Ecke Nußbaumstr. 26, 80336 Munich and Haus 32, 80804 Munich",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Sabine Thomas",
+      "url": "https://www.krimifestival-muenchen.de/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "Readers",
+          "Literature Fans",
+          "Thrill Seeker Enthusiasts"
+        ],
+        "industries": [
+          "Publishing",
+          "Media",
+          "Arts and Culture"
+        ],
+        "interests": [
+          "Mystery Fiction",
+          "Literature",
+          "Crime Thrillers",
+          "Author Readings"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "medium",
+        "rationale": "An international literary festival featuring celebrated German-speaking and international authors attracts book lovers and thriller fans from the general public."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE",
+              "AT",
+              "CH"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "medium",
+        "confidence": "medium",
+        "rationale": "Featuring international authors at atmospheric venues across Munich suggests a draw from German-speaking neighboring countries alongside local attendees."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.oktoberfest.de/en/informationen/kontakt-und-presse",
+            "title": "oktoberfest.de",
+            "publisher_domain": "www.oktoberfest.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.oktoberfest.de/en/information/service-for-visitors/faqs-for-wiesn-visitors",
+            "title": "oktoberfest.de",
+            "publisher_domain": "www.oktoberfest.de",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "munich-marathon-2026-10-11-244833",
+      "name": "Munich Marathon 2026",
+      "name_local": "MARATHON MÜNCHEN by Brooks",
+      "category": "festival_culture",
+      "subcategory": null,
+      "description": "While primarily an athletic race, this major event serves as a massive civic and urban celebration for the entire city. It is accompanied by a \"Runners Festival\" at the Olympic Park and live music and culinary hotspots along the single-loop city-center course, which passes through iconic locations l",
+      "dates": {
+        "start_date": "2026-10-11",
+        "end_date": "2026-10-11",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Munich Olympic Park (Olympiapark)",
+        "address": "Hans-Jochen-Vogel-Platz / Spiridon-Louis-Ring, 80809 Munich",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Laufstatt Event gGmbH",
+      "url": "https://marathonmuenchen.org/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": 28500,
+          "low": null,
+          "high": null,
+          "basis": "reported",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "national"
+      },
+      "audience": {
+        "type": "mixed",
+        "segments": [
+          "Runners",
+          "Athletes",
+          "Spectators",
+          "Families",
+          "Local Residents"
+        ],
+        "industries": [
+          "Sports",
+          "Hospitality",
+          "Tourism",
+          "Health and Fitness"
+        ],
+        "interests": [
+          "Marathons",
+          "Running",
+          "Fitness",
+          "Live Music",
+          "Civic Events"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "A major marathon combined with a public Runners Festival and live music along a city-center course draws both participating athletes and a massive local spectator audience."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE",
+              "AT",
+              "CH"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "medium",
+        "confidence": "medium",
+        "rationale": "Large marathons typically attract international running tourists as well as a high volume of regional participants and local spectators."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.muenchen.de/en/events/auer-dult-2026",
+            "title": "muenchen.de",
+            "publisher_domain": "www.muenchen.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.in-muenchen.de/events/auer-dult.html",
+            "title": "in-muenchen.de",
+            "publisher_domain": "www.in-muenchen.de",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url",
+          "scale.attendance"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "munich-climate-week-2026-10-19-de66c4",
+      "name": "Munich Climate Week 2026",
+      "name_local": null,
+      "category": "academic_community",
+      "subcategory": null,
+      "description": "A major city-wide, decentralized grassroots initiative that serves as an open platform for climate action, innovation, and social change. Moving away from a traditional single-conference format, it connects citizens, universities, businesses, and civil society across over 100 independently organized",
+      "dates": {
+        "start_date": "2026-10-19",
+        "end_date": "2026-10-25",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Decentralized across multiple venues and neighborhoods in Munich (including universities, museums, conference halls, and community spaces)",
+        "address": null,
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Formed by a collaborative organizing team of founders, entrepreneurs, and climate activists (such as Julian Schmidt and Mariana Pedraza-Copete) along with founding partners including the Technical University of Munich (TUM), UnternehmerTUM, and Munich Re.",
+      "url": "https://www.munichclimateweek.com/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "mixed",
+        "segments": [
+          "Activists",
+          "Researchers",
+          "Students",
+          "Local Citizens",
+          "Business Professionals"
+        ],
+        "industries": [
+          "Environmental Services",
+          "Higher Education",
+          "Sustainability",
+          "Government"
+        ],
+        "interests": [
+          "Climate Action",
+          "Sustainability",
+          "Innovation",
+          "Social Change",
+          "Workshops"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "A decentralized grassroots initiative connecting citizens, universities, businesses, and civil society naturally engages a mixed audience of professionals, academics, and the general public."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Bavaria",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "regional",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "high",
+        "rationale": "Being a decentralized city-wide grassroots initiative across multiple Munich neighborhoods and universities points strongly to a local and regional participant base."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.munichclimateweek.com/",
+            "title": "munichclimateweek.com",
+            "publisher_domain": "www.munichclimateweek.com",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.munichclimateweek.com/",
+            "title": "munichclimateweek.com",
+            "publisher_domain": "www.munichclimateweek.com",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "ieee-acm-international-conference-on-automated-software-engineering-ase-2026-10-12-e01de7",
+      "name": "41st IEEE/ACM International Conference on Automated Software Engineering (ASE 2026)",
+      "name_local": null,
+      "category": "academic_community",
+      "subcategory": null,
+      "description": "A premier international research forum bringing together researchers and practitioners from academia and industry to present, discuss, and evaluate foundations, techniques, and tools for automating software analysis, design, implementation, testing, and maintenance. The conference features co-locate",
+      "dates": {
+        "start_date": "2026-10-12",
+        "end_date": "2026-10-16",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Holiday Inn Munich – City Centre",
+        "address": "Hochstraße 3, 81669 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "IEEE and ACM (jointly administered), supported locally by the Systematic Software Engineering Lab (SoSy-Lab) at LMU Munich, along with industry sponsors like Amazon, JetBrains, Google, and Huawei.",
+      "url": "https://conf.researchr.org/home/ase-2026",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "Researchers",
+          "Software Engineers",
+          "Academics",
+          "Industry Practitioners"
+        ],
+        "industries": [
+          "Software Development",
+          "Information Technology",
+          "Academia"
+        ],
+        "interests": [
+          "Automated Software Engineering",
+          "Agentic AI",
+          "Software Testing",
+          "Computer Science Research"
+        ],
+        "languages": [
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "An international research forum hosted by IEEE/ACM explicitly targets software engineering professionals, researchers, and practitioners."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE",
+              "GB",
+              "FR",
+              "CH"
+            ],
+            "scope": "international",
+            "share": "high"
+          },
+          {
+            "region": "North America",
+            "country_codes": [
+              "US",
+              "CA"
+            ],
+            "scope": "international",
+            "share": "medium"
+          }
+        ],
+        "international_share": "high",
+        "confidence": "high",
+        "rationale": "As a premier international conference organized by global institutions like IEEE/ACM, it attracts attendees from across the globe."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://gruenewellepr.de/en/gruene-welle-kommunikation-bei-der-munich-climate-week-2026/",
+            "title": "gruenewellepr.de",
+            "publisher_domain": "gruenewellepr.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.schongenial.at/en/b/munich-climate-week-the-epicentre-of-change",
+            "title": "schongenial.at",
+            "publisher_domain": "www.schongenial.at",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "munich-career-fair-ai-data-science-2026-10-29-6b12ca",
+      "name": "Munich Career Fair AI & Data Science 2026",
+      "name_local": null,
+      "category": "academic_community",
+      "subcategory": null,
+      "description": "A highly specialized university career fair aimed at bachelor’s, master’s, and doctoral candidates interested in artificial intelligence, machine learning, and data science. It provides expert presentations, company pitches, booths, and one-on-one networking blocks to connect students with corporate",
+      "dates": {
+        "start_date": "2026-10-29",
+        "end_date": "2026-10-29",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "TranslaTUM at Klinikum rechts der Isar",
+        "address": "Einsteinstraße 25 (Building 522), 81675 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "Jointly organized by the Munich Data Science Institute (MDSI) at TUM, the Konrad Zuse School of Excellence in Reliable AI (relAI), the Munich Center for Machine Learning (MCML), and the AI Hub at LMU.",
+      "url": "https://www.mdsi.tum.de/en/mdsi/latest-info/events/full-text/article/munich-career-fair-ai-data-science-2026/",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "mixed",
+        "segments": [
+          "Bachelor Students",
+          "Master Students",
+          "PhD Candidates",
+          "Corporate Recruiters"
+        ],
+        "industries": [
+          "Artificial Intelligence",
+          "Data Science",
+          "Higher Education"
+        ],
+        "interests": [
+          "Career Development",
+          "Machine Learning",
+          "Networking",
+          "Job Hunting"
+        ],
+        "languages": [
+          "German",
+          "English"
+        ],
+        "confidence": "high",
+        "rationale": "A university career fair directly connects students and doctoral candidates in AI and data science with corporate hiring partners."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Munich Metropolitan Region",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "regional",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "high",
+        "rationale": "Being a localized university career fair held at a specific Munich venue, attendees are primarily regional students and local companies."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://opportunitytracker.ug/opportunity/be-part-of-the-munich-climate-week-2026/",
+            "title": "opportunitytracker.ug",
+            "publisher_domain": "opportunitytracker.ug",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://collab.dvb.bayern/spaces/TUMnat/blog/2026/07/16/2923889375/Call+for+Contributions+Munich+Climate+Week+19.%E2%80%9325.+October+2026",
+            "title": "dvb.bayern",
+            "publisher_domain": "collab.dvb.bayern",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "high",
+        "notes": null
+      }
+    },
+    {
+      "id": "patient-congress-of-the-german-osteoporosis-self-help-association-2026-10-17-878eee",
+      "name": "24th Patient Congress of the German Osteoporosis Self-Help Association",
+      "name_local": "24. Patienten-Kongress des Bundesselbsthilfeverbandes für Osteoporose e.V.",
+      "category": "academic_community",
+      "subcategory": null,
+      "description": "A community and medical support gathering held in conjunction with World Osteoporosis Day. It provides patients, caregivers, and health advocates with access to professional advice, lectures, and self-help networking opportunities concerning bone health and osteoporosis management.",
+      "dates": {
+        "start_date": "2026-10-17",
+        "end_date": "2026-10-17",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Main Building of Ludwig Maximilian University of Munich (LMU)",
+        "address": "Geschwister-Scholl-Platz 1, 80539 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "German Osteoporosis Self-Help Association (Bundesselbsthilfeverband für Osteoporose e.V. - BfO).",
+      "url": "https://www.muenchen.travel/rubriken/planen/conventions-messen-events",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "Patients",
+          "Caregivers",
+          "Health Advocates"
+        ],
+        "industries": [
+          "Healthcare",
+          "Non-Profit",
+          "Self-Help"
+        ],
+        "interests": [
+          "Bone Health",
+          "Osteoporosis Management",
+          "Medical Support",
+          "Health Advocacy"
+        ],
+        "languages": [
+          "German"
+        ],
+        "confidence": "high",
+        "rationale": "Organized by a national self-help association for World Osteoporosis Day, the event primarily draws patients and caregivers seeking guidance."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Germany",
+            "country_codes": [
+              "DE"
+            ],
+            "scope": "national",
+            "share": "high"
+          }
+        ],
+        "international_share": "low",
+        "confidence": "medium",
+        "rationale": "As a national self-help association congress conducted in Germany, attendees are expected to be predominantly domestic patients and advocates."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://conf.researchr.org/series/agenticdev",
+            "title": "researchr.org",
+            "publisher_domain": "conf.researchr.org",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "qs-discover-master-s-event-and-qs-connect-mba-event-in-munich-2026-10-29-e2fb0f",
+      "name": "QS Discover Master's Event and QS Connect MBA Event in Munich",
+      "name_local": null,
+      "category": "academic_community",
+      "subcategory": null,
+      "description": "A physical higher-education fair and professional networking event designed to connect prospective graduate and business students with admissions representatives, coaches, and recruiters. It includes CV reviews, funding advice, admissions workshops, and face-to-face meetings.",
+      "dates": {
+        "start_date": "2026-10-29",
+        "end_date": "2026-10-29",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Holiday Inn Munich – City Centre",
+        "address": "Hochstraße 3, 81669 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "QS Quacquarelli Symonds (TopUniversities / TopMBA).",
+      "url": "https://www.topuniversities.com/events/qs-discover-masters-event-munich-29-october",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2c",
+        "segments": [
+          "Prospective Graduate Students",
+          "Prospective MBA Students"
+        ],
+        "industries": [
+          "Higher Education",
+          "Business Education"
+        ],
+        "interests": [
+          "Graduate Studies",
+          "MBA Admissions",
+          "Career Coaching",
+          "Study Abroad Funding"
+        ],
+        "languages": [
+          "English",
+          "German"
+        ],
+        "confidence": "high",
+        "rationale": "The higher-education fair is designed specifically for individuals looking to pursue graduate and business school degrees."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Bavaria and Surrounding Regions",
+            "country_codes": [
+              "DE",
+              "AT",
+              "CH"
+            ],
+            "scope": "regional",
+            "share": "high"
+          }
+        ],
+        "international_share": "medium",
+        "confidence": "medium",
+        "rationale": "QS educational fairs typically draw local and regional prospective students alongside some international applicants residing nearby."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://conf.researchr.org/home/ase-2026/agenticdev-2026",
+            "title": "researchr.org",
+            "publisher_domain": "conf.researchr.org",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://conf.researchr.org/venue/ase-2026/ase-2026-venue1",
+            "title": "researchr.org",
+            "publisher_domain": "conf.researchr.org",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    },
+    {
+      "id": "estainium-member-meeting-munich-2026-10-20-6399a0",
+      "name": "ESTAINIUM Member Meeting Munich 2026",
+      "name_local": null,
+      "category": "academic_community",
+      "subcategory": null,
+      "description": "A collaborative corporate-academic community meeting integrated into Munich Climate Week 2026. It focuses on sustainable industry practices, utilizing data to drive systemic change, trust ecosystems, and standardizing product carbon footprints through ESTAINIUM’s Circularity Handbook.",
+      "dates": {
+        "start_date": "2026-10-20",
+        "end_date": "2026-10-21",
+        "date_confidence": "high"
+      },
+      "venue": {
+        "name": "Impact HUB Munich",
+        "address": "Gotzinger Str. 8, 81371 Munich, Germany",
+        "district": null,
+        "latitude": null,
+        "longitude": null,
+        "is_outdoor": null
+      },
+      "organizer": "ESTAINIUM Association",
+      "url": "https://www.estainium.eco/meetings-events",
+      "ticketing": {
+        "is_free": null,
+        "price_note": null
+      },
+      "scale": {
+        "attendance": {
+          "value": null,
+          "low": null,
+          "high": null,
+          "basis": "unknown",
+          "source_url": null
+        },
+        "exhibitors": null,
+        "scale_tier": "local"
+      },
+      "audience": {
+        "type": "b2b",
+        "segments": [
+          "Corporate Sustainability Officers",
+          "Industry Leaders",
+          "Researchers"
+        ],
+        "industries": [
+          "Sustainability",
+          "Manufacturing",
+          "Corporate Climate Tech",
+          "Circular Economy"
+        ],
+        "interests": [
+          "Product Carbon Footprints",
+          "Sustainable Industry Practices",
+          "Trust Ecosystems",
+          "Circularity"
+        ],
+        "languages": [
+          "English",
+          "German"
+        ],
+        "confidence": "high",
+        "rationale": "Integrated into Munich Climate Week, this member meeting focuses on corporate sustainability standards, attracting industry professionals."
+      },
+      "geographic_origin": {
+        "primary": [
+          {
+            "region": "Europe",
+            "country_codes": [
+              "DE",
+              "CH",
+              "AT"
+            ],
+            "scope": "international",
+            "share": "high"
+          }
+        ],
+        "international_share": "medium",
+        "confidence": "medium",
+        "rationale": "As a collaborative corporate-academic network meeting tied to Munich Climate Week, participants will likely travel from across Europe."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "url": "https://www.mdsi.tum.de/en/mdsi/education/doctoral-studies/full-text/article/munich-career-fair-ai-data-science-2026/",
+            "title": "tum.de",
+            "publisher_domain": "www.mdsi.tum.de",
+            "retrieved_at": null
+          },
+          {
+            "url": "https://www.tum.de/en/news-and-events/events/details/munich-career-fair-ai-and-data-science",
+            "title": "tum.de",
+            "publisher_domain": "www.tum.de",
+            "retrieved_at": null
+          }
+        ],
+        "discovered_via": [
+          "gemini_grounded_search"
+        ],
+        "corroborated": false,
+        "fact_fields": [
+          "name",
+          "dates",
+          "venue",
+          "organizer",
+          "url"
+        ],
+        "inferred_fields": [
+          "audience",
+          "geographic_origin"
+        ]
+      },
+      "data_quality": {
+        "overall_confidence": "medium",
+        "notes": null
+      }
+    }
+  ]
+}

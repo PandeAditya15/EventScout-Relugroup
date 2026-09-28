@@ -129,3 +129,82 @@ despite the real count sitting right there in the cached payload.
   names, client lifecycle, model availability, or thinking-config shape. The fake-client tests
   verify our *logic* (caching, retrying, budget math); only a real call verifies our *integration*
   with the actual SDK and API. Both are necessary; neither is sufficient alone.
+
+## 2026-09-28 — Milestone 3 (clean stage) design choices
+
+- **Location filter is permissive, not strict.** `filter_by_month_and_location` only drops an
+  event when there's positive evidence it's in the wrong month or city (e.g. venue_address says
+  "Berlin"). Events with no date or no venue info at all are kept rather than dropped, since a
+  missing field isn't evidence of a mismatch -- dropping on absence would silently lose events the
+  model found real sources for but couldn't pin down every detail on.
+- **Name normalisation folds diacritics, doesn't translate.** `normalize_name` strips years,
+  ordinals, and punctuation, and folds accented characters to ASCII (München -> munchen) so minor
+  spelling variants match. It does **not** attempt German/English translation (e.g. it won't match
+  "Biergarten" to "Beer Garden") -- that's left to rapidfuzz's similarity scoring in `dedupe_events`
+  for near-misses, and genuinely different names are expected to stay separate.
+- **Dedup merge policy is "first non-null value wins, sources/discovered_via always union."**
+  When two RawEvents are judged the same event (similar normalised name + overlapping or unknown
+  dates), most fields keep whichever side already had a value; `sources` and `discovered_via` are
+  unioned regardless, since evidence should accumulate even when facts don't need to change. The
+  brief's "prefer connector values over LLM-extracted values for dates/venue/coordinates" isn't
+  implemented yet since no connector exists to prefer (milestone 5).
+- **URL resolution failure is silent, not an error.** If `httpx` can't resolve a grounding
+  redirect (timeout, DNS failure, etc.), `resolve_source_urls` keeps the original URL rather than
+  raising or dropping the source -- consistent with the brief's "flag it if resolution fails"
+  (the flag here is simply that the URL still points at the redirect service, not a real domain).
+- **Clean runs once, after all categories, not per-category.** The brief's pipeline description
+  says clean operates "for all sources" as a single pass, so `cli.py`'s `run` command collects
+  every category's RawEvents first and calls `clean_events` once on the combined list -- this is
+  also where cross-category duplicates (e.g. a marathon appearing in both `sports` and
+  `festival_culture`) actually get merged.
+
+## 2026-09-28 — Milestone 4 (enrich + export) design choices
+
+- **Enrichment batches reference events by number, not name.** Same pattern as extraction's
+  `source_numbers`: the prompt numbers each event 1..N, and the model returns `event_number` per
+  result. This survives the model reordering or skipping an event in its response, which matching
+  by name (fuzzy or exact) would be more fragile against.
+- **A missing/malformed enrichment result gets a low-confidence fallback, not a dropped event.**
+  If the model omits an event from a batch response, or the whole response fails to parse, that
+  event still makes it to export with `audience.confidence = "low"` and a rationale saying
+  enrichment failed -- an event with no inference at all would violate the schema (audience/
+  geographic_origin are required), and dropping a real, sourced event because one inference call
+  had a hiccup felt like the wrong trade-off.
+- **scale_tier thresholds are a judgment call, not specified in the brief:** local <5,000,
+  regional <20,000, national <100,000, international >=100,000 attendance. An event with unknown
+  attendance defaults to `local` (the most conservative tier) rather than guessing higher.
+- **Events with no `start_date` are dropped at export, not at clean.** `EventDates.start_date` is
+  required by the final schema, but `RawEvent.start_date` is optional (extraction sometimes can't
+  find a date). Dropping happens as late as possible -- at the point the schema constraint actually
+  bites -- and is counted under a new `no_start_date` reason in `stats.dropped_by_reason`, merged
+  in by `build_output` alongside clean's `out_of_month`/`wrong_location`/`no_sources` counts.
+- **`overall_confidence` is the lowest of date/audience/geographic-origin confidence,** not an
+  average or the date's confidence alone -- a report is only as trustworthy as its weakest claim.
+- **The `attributions` list currently has exactly one entry: Google Search via Gemini grounding.**
+  Its URL and terms-of-service link were verified live (ai.google.dev/gemini-api/docs/grounding
+  explicitly points to the terms URL used here) rather than assumed. More entries get added in
+  milestone 5 as connectors (OpenLigaDB, Ticketmaster, Nominatim) come online.
+
+## 2026-09-28 — First full 6-category live run cost 7x the estimate; capped discover's thinking
+
+`eventscout run --max-cost-usd 0.50` (all 6 categories) completed successfully -- 37 raw events,
+35 after dedup, all schema-valid -- but cost **$0.4173**, against a pre-run estimate of ~$0.05-0.07.
+
+- **Cause:** `discover.py` never set a `thinking_config`, so `gemini-3.5-flash` (the discovery
+  model) ran at its default thinking level, not the minimal one `extract.py`/`enrich.py` already
+  used. Thinking tokens are billed at the model's *output* rate, and `gemini-3.5-flash`'s output
+  rate ($9.00/1M) is by far the priciest in the pipeline -- so a discovery call can rack up
+  significant cost in tokens that never even appear in the visible response text. The original
+  estimate only had one single-category data point (`festival_culture`, already cached) to
+  extrapolate from, which didn't expose this.
+- **Decision:** added `thinking_config=ThinkingConfig(thinking_level=LOW)` to `discover.py`'s
+  config -- one step above extract/enrich's `MINIMAL`, since discovery plausibly benefits more from
+  reasoning to synthesize results across many grounded sources, but still far below the
+  unconfigured default.
+- **Trade-off:** this wasn't re-verified with another live run (that would cost more money to
+  prove a cost fix), so the actual savings are inferred from the pricing model, not measured. The
+  existing `events_oct_2026.json` (35 events, $0.4173, well within the $5 project budget) was kept
+  as the real deliverable rather than discarded to re-run cheaper.
+- Not a bug: nothing malfunctioned, and `--max-cost-usd` correctly would have aborted before
+  exceeding its cap had spend gotten close. This is a cost-estimation and pricing-model lesson, not
+  a correctness issue.
