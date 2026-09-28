@@ -1,0 +1,41 @@
+{
+  "_comment": "Trimmed from a real gemini-3.5-flash-lite structured-output response (2026-09-27, festival_culture/Munich/2026-10 run). No API keys or headers -- this is exactly the JSON text the model returned, cut down to 2 of 5 events.",
+  "events": [
+    {
+      "name": "Oktoberfest 2026",
+      "name_local": "Oktoberfest",
+      "subcategory": null,
+      "description": "The world’s largest folk festival (Volksfest), combining a massive beer festival with traditional parades, a funfair, brass bands, and Bavarian cuisine. Key events overlapping October include the closing weekend, a traditional ecumenical service, and the traditional gun salute.",
+      "start_date": "2026-09-19",
+      "end_date": "2026-10-04",
+      "venue_name": "Theresienwiese",
+      "venue_address": "80336 Munich, Germany",
+      "venue_district": "Ludwigsvorstadt-Isarvorstadt",
+      "organizer": "City of Munich, Department of Labor and Economic Development (Referat für Arbeit und Wirtschaft – RAW)",
+      "url": "https://www.oktoberfest.de/en",
+      "is_free": null,
+      "price_note": null,
+      "attendance_value": 6000000,
+      "attendance_basis": "reported",
+      "source_numbers": [1, 2]
+    },
+    {
+      "name": "Auer Dult – Kirchweihdult 2026",
+      "name_local": "Auer Dult – Kirchweihdult",
+      "subcategory": null,
+      "description": "A cozy and traditional Bavarian outdoor market and folk festival. It marks the final event of the three seasonal annual Auer Dults (following spring's Maidult and summer's Jakobidult). It features over 250 market stalls selling porcelain, ceramics, household items, and antiques, paired with classic fairground rides (like carousels and swing boats) and regional culinary delicacies.",
+      "start_date": "2026-10-17",
+      "end_date": "2026-10-25",
+      "venue_name": "Mariahilfplatz",
+      "venue_address": "81541 Munich, Germany",
+      "venue_district": "Au-Haidhausen",
+      "organizer": "City of Munich, Department of Labor and Economic Development (Referat für Arbeit und Wirtschaft – RAW)",
+      "url": "https://www.muenchen.de/en/shopping/auer-dult-munich-dates-tips",
+      "is_free": null,
+      "price_note": null,
+      "attendance_value": 300000,
+      "attendance_basis": "reported",
+      "source_numbers": [3, 4]
+    }
+  ]
+}
