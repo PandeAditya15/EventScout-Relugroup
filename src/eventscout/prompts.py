@@ -64,3 +64,28 @@ Text:
 Numbered sources:
 {numbered_sources}
 """
+
+ENRICHMENT_PROMPT_TEMPLATE = """\
+Below is a numbered list of real-world events. For each one, infer:
+
+1. Its likely audience: type (b2b, b2c, or mixed), likely segments, \
+industries, interests, and languages of attendees.
+2. Where attendees likely come from: one or more regions, each with likely \
+country codes (ISO 3166-1 alpha-2), a scope (local, regional, national, or \
+international), and a rough share (high, medium, or low), plus an overall \
+international_share.
+
+Base every inference only on the event's type, scale, and the facts given \
+below -- not on outside knowledge of the specific event. These are estimates, \
+not facts, so:
+- Give a confidence level (high, medium, or low) for the audience inference \
+and separately for the geographic-origin inference.
+- Give a one-sentence rationale for each, referencing the event facts that \
+led to it (e.g. "a free public folk festival draws a broad local audience").
+
+Return one result per event, using `event_number` to match the numbering \
+below.
+
+Events:
+{numbered_events}
+"""

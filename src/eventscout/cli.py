@@ -7,9 +7,11 @@ must never be run without the user's go-ahead first, per the project brief.
 
 from __future__ import annotations
 
+import calendar
 import datetime as dt
 import json
 
+import httpx
 import typer
 from google import genai
 
@@ -19,11 +21,15 @@ from eventscout.config import (
     DEFAULT_MAX_COST_USD,
     DISCOVERY_MODEL,
     GEMINI_API_KEY,
+    REPO_ROOT,
     SCHEMA_DIR,
 )
 from eventscout.cost import BudgetExceededError, CostLedger
 from eventscout.models import EventCategory, EventScoutOutput
+from eventscout.stages.clean import clean_events
 from eventscout.stages.discover import discover_category
+from eventscout.stages.enrich import enrich_events
+from eventscout.stages.export import build_output
 from eventscout.stages.extract import extract_events
 
 app = typer.Typer(help="Find real-world events in a city/month, with sourced evidence.")
@@ -71,19 +77,22 @@ def run(
         False, "--dry-run", help="Print planned calls and exit; makes no API calls"
     ),
 ) -> None:
-    """Discover and extract events for a city/month.
+    """Discover, extract, clean, enrich, and export events for a city/month.
 
-    Only discover + extract exist so far (clean/enrich/export are later
-    milestones), so this writes the raw, undeduped events it finds rather than
-    the final schema-validated output.
+    Writes the final schema-validated output to events_<mon>_<year>.json at
+    the repo root.
     """
     selected = _parse_categories(categories)
 
     if dry_run:
         typer.echo(f"Would run for {city}, {country}, {month}")
         typer.echo(f"Categories ({len(selected)}): {', '.join(c.value for c in selected)}")
-        typer.echo(f"Discovery model: {DISCOVERY_MODEL}  |  Extraction model: {CHEAP_MODEL}")
-        typer.echo(f"Planned calls: {len(selected)} discover + up to {len(selected)} extract")
+        typer.echo(f"Discovery model: {DISCOVERY_MODEL}  |  Extraction/enrich model: {CHEAP_MODEL}")
+        typer.echo(
+            f"Planned calls: {len(selected)} discover + up to {len(selected)} extract "
+            "+ 1 enrich call per 5 surviving events (exact count depends on how many "
+            "events discovery/clean actually produce)"
+        )
         typer.echo("No API calls made (--dry-run).")
         return
 
@@ -124,13 +133,41 @@ def run(
     except BudgetExceededError as exc:
         typer.echo(f"\nStopped: {exc}", err=True)
 
-    run_id = dt.datetime.now().strftime("%Y%m%dT%H%M%S")
-    out_dir = DATA_INTERIM_DIR / run_id
-    out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / "raw_events.json"
-    out_path.write_text(json.dumps([e.model_dump(mode="json") for e in all_events], indent=2))
+    typer.echo(f"\nCleaning {len(all_events)} raw event(s)...")
+    with httpx.Client() as http_client:
+        cleaned = clean_events(all_events, month=month, city=city, http_client=http_client)
+    typer.echo(f"  dropped: {cleaned.dropped_by_reason}")
 
-    typer.echo(f"\nWrote {len(all_events)} raw event(s) to {out_path}")
+    typer.echo(f"\nEnriching {len(cleaned.events)} event(s)...")
+    try:
+        enriched = enrich_events(
+            models_client, cleaned.events, ledger=ledger, use_cache=not no_cache
+        )
+    except BudgetExceededError as exc:
+        typer.echo(f"\nStopped during enrichment: {exc}", err=True)
+        enriched = []
+
+    output = build_output(
+        enriched,
+        city=city,
+        country_code=country,
+        month=month,
+        models={"discovery": DISCOVERY_MODEL, "cheap": CHEAP_MODEL},
+        ledger=ledger,
+        dropped_by_reason=cleaned.dropped_by_reason,
+    )
+
+    run_id = dt.datetime.now().strftime("%Y%m%dT%H%M%S")
+    interim_path = DATA_INTERIM_DIR / run_id / "output.json"
+    interim_path.parent.mkdir(parents=True, exist_ok=True)
+    interim_path.write_text(output.model_dump_json(indent=2))
+
+    year, month_num = (int(part) for part in month.split("-"))
+    month_abbr = calendar.month_abbr[month_num].lower()
+    final_path = REPO_ROOT / f"events_{month_abbr}_{year}.json"
+    final_path.write_text(output.model_dump_json(indent=2))
+
+    typer.echo(f"\nWrote {output.stats.event_count} final event(s) to {final_path}")
     typer.echo(ledger.summary())
 
 

@@ -9,7 +9,7 @@ than an opaque schema-validation error inside the API call.
 
 from pydantic import BaseModel, Field
 
-from eventscout.models import AttendanceBasis
+from eventscout.models import AttendanceBasis, AudienceType, ConfidenceLevel, GeoScope
 
 
 class ExtractedEvent(BaseModel):
@@ -38,3 +38,33 @@ class ExtractedEvent(BaseModel):
     attendance_basis: AttendanceBasis | None = None
 
     source_numbers: list[int] = Field(default_factory=list)
+
+
+class GeographicOriginItem(BaseModel):
+    region: str
+    country_codes: list[str] = Field(default_factory=list)
+    scope: GeoScope
+    share: ConfidenceLevel
+
+
+class EnrichedEvent(BaseModel):
+    """Audience/origin inference for one event in a batch. `event_number`
+    matches the 1-based position of the event as listed in the enrichment
+    prompt -- the same numbered-reference pattern extract.py uses for
+    sources, so a batch response can't be silently misaligned to the wrong
+    event if the model reorders or skips one."""
+
+    event_number: int
+
+    audience_type: AudienceType
+    audience_segments: list[str] = Field(default_factory=list)
+    audience_industries: list[str] = Field(default_factory=list)
+    audience_interests: list[str] = Field(default_factory=list)
+    audience_languages: list[str] = Field(default_factory=list)
+    audience_confidence: ConfidenceLevel
+    audience_rationale: str
+
+    geographic_origin_primary: list[GeographicOriginItem] = Field(default_factory=list)
+    geographic_origin_international_share: ConfidenceLevel | None = None
+    geographic_origin_confidence: ConfidenceLevel
+    geographic_origin_rationale: str
