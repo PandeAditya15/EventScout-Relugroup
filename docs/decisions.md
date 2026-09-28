@@ -64,3 +64,68 @@ Non-obvious choices made while building EventScout, in chronological order.
   not "the exact call that would tip it over."
 - **Trade-off:** a single very expensive call could still land at or slightly past the cap before
   the *next* call is blocked, since nothing pre-estimates that one call's cost.
+
+## 2026-09-27 — First live run surfaced three real bugs; switched off gemini-2.5-*
+
+The first-ever real (non-fake-client) call to the pipeline failed three times in a row, each
+time on something no unit test could have caught since all tests use a fake client:
+
+1. **`cli.py` called `client.generate_content(...)` instead of `client.models.generate_content(...)`.**
+   `genai.Client` has no `generate_content` method directly -- only `Client.models` does. Fixed by
+   passing `client.models` into `discover_category`/`extract_events`.
+2. **`genai.Client(api_key=...).models` was passed around without keeping `client` itself alive.**
+   With no reference to the parent `Client`, its underlying HTTP client got garbage-collected and
+   closed before the request fired (`RuntimeError: Cannot send a request, as the client has been
+   closed.`). Fixed by keeping `client = genai.Client(...)` bound in `run()`'s scope for the
+   duration of the call.
+3. **`gemini-2.5-flash` returned a live 404**: "no longer available to new users... use
+   models/gemini-3.5-flash" (Google's message actually named gemini-3.8-flash, but the user chose
+   3.5 as more established). Being listed by `smoke-test` does not mean a model is actually usable
+   by a given key -- only a real `generate_content` call proves that.
+- **Decision:** switched `DISCOVERY_MODEL` to `gemini-3.5-flash` and `CHEAP_MODEL` to
+  `gemini-3.5-flash-lite`, with pricing re-confirmed from the official page for both (grounded
+  search on Gemini 3.x is $14/1,000 requests with a 5,000/month free allowance shared across all
+  3.x models -- different from the 2.5-generation's $35/1,000 with a 1,500/*day* allowance).
+- **Decision:** rejected `gemini-flash-lite-latest` for `CHEAP_MODEL` even though the user
+  initially picked it, because it's an alias with no distinct row on the pricing page -- its real
+  per-token cost can't be verified, which would make the cost ledger silently wrong (pricing it at
+  $0 via the "unpriced model" fallback in `cost.py`).
+- **No cost was incurred** by any of these three failed attempts: bugs (1) and (2) failed in
+  Python before any HTTP request was sent, and (3) was a 404 client error, which the SDK doesn't
+  bill for.
+
+## 2026-09-27 — extract.py used the wrong thinking-config parameter for 3.x models
+
+- **Context:** with the model bugs above fixed, the discover call succeeded (first successful
+  live call), but extract failed with a bare `400 INVALID_ARGUMENT`. `extract.py` had set
+  `ThinkingConfig(thinking_budget=0)` to disable thinking -- `thinking_budget` is the older,
+  token-count-based parameter. The official docs (ai.google.dev/gemini-api/docs/thinking) show
+  Gemini 3.5-generation models are configured via `thinking_level` (minimal/low/medium/high)
+  instead.
+- **Decision:** switched to `ThinkingConfig(thinking_level=ThinkingLevel.MINIMAL)` -- the lowest
+  available level -- confirmed against the SDK's `ThinkingLevel` enum in `types.py`.
+- **Trade-off:** none really; this is a straight fix. Worth noting for future model-generation
+  changes: `thinking_budget` vs `thinking_level` isn't interchangeable across Gemini generations,
+  and picking the wrong one fails at request time, not at schema-build time.
+
+## 2026-09-27 — First successful live run; found the cache was undercounting search queries
+
+With both bugs above fixed, `eventscout run --categories festival_culture --max-cost-usd 0.10`
+completed end to end for the first time: 5 real events (Oktoberfest, Auer Dult, Museum Night,
+Munich Crime Festival, Munich Marathon), each with real `vertexaisearch.cloud.google.com`
+grounding-redirect source URLs, real dates and attendance figures, for **$0.0059** total.
+
+That run's discover call was itself a cache hit (reusing the one successful discover call from
+the earlier failed attempt), which surfaced one more bug: the cache file correctly stored
+`search_queries_executed: 10`, but `generate()`'s cache-hit branch built its `CallRecord` without
+a `search_queries` value, so the ledger's `search_queries_executed` tallied `0` for that call
+despite the real count sitting right there in the cached payload.
+- **Decision:** the cache-hit branch now passes `search_queries=cached_search_queries` into the
+  `CallRecord`, matching the fresh-call branch. Added a ledger-level assertion to the existing
+  cache-hit test (`ledger.search_queries_executed == 4`) so a regression here fails loudly instead
+  of just showing up as a wrong number in a run's cost summary.
+- Every bug found across this whole live-testing session was invisible to the 32 fake-client
+  tests, because they all pass in plausible-looking data and never touch the real SDK's method
+  names, client lifecycle, model availability, or thinking-config shape. The fake-client tests
+  verify our *logic* (caching, retrying, budget math); only a real call verifies our *integration*
+  with the actual SDK and API. Both are necessary; neither is sufficient alone.

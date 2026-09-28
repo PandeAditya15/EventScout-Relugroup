@@ -112,13 +112,21 @@ def generate(
     if use_cache:
         cached = cache_get(key)
         if cached is not None:
-            ledger.record(CallRecord(stage=stage, model=model, cache_hit=True))
+            cached_search_queries = cached.get("search_queries_executed", 0)
+            ledger.record(
+                CallRecord(
+                    stage=stage,
+                    model=model,
+                    cache_hit=True,
+                    search_queries=cached_search_queries,
+                )
+            )
             sources = [Source(**s) for s in cached.get("sources", [])]
             return GenerateResult(
                 text=cached["text"],
                 cache_hit=True,
                 sources=sources,
-                search_queries_executed=cached.get("search_queries_executed", 0),
+                search_queries_executed=cached_search_queries,
             )
 
     # We can't know this call's exact cost until it returns (token counts

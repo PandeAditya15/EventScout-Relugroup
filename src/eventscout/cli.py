@@ -91,7 +91,11 @@ def run(
         typer.echo("GEMINI_API_KEY is not set in .env. Aborting.", err=True)
         raise typer.Exit(code=1)
 
+    # `client` must stay referenced for the run's lifetime: discarding it right
+    # after taking `.models` lets its underlying HTTP client get garbage
+    # collected (and closed) before any request fires.
     client = genai.Client(api_key=GEMINI_API_KEY)
+    models_client = client.models
     ledger = CostLedger(max_cost_usd=max_cost_usd)
     all_events = []
 
@@ -99,7 +103,7 @@ def run(
         for category in selected:
             typer.echo(f"Discovering: {category.value}...")
             discovery = discover_category(
-                client,
+                models_client,
                 category=category,
                 city=city,
                 country_code=country,
@@ -108,7 +112,7 @@ def run(
                 use_cache=not no_cache,
             )
             events = extract_events(
-                client,
+                models_client,
                 text=discovery.text,
                 sources=discovery.sources,
                 category=category,

@@ -1,8 +1,10 @@
 """Extraction stage: turns one discovery call's text into structured RawEvents.
 
-No tools, CHEAP_MODEL, structured JSON output. Thinking is disabled
-(thinking_budget=0) since extraction is parsing, not reasoning -- the lowest
-setting that still works, per the brief.
+No tools, CHEAP_MODEL, structured JSON output. Thinking is set to MINIMAL --
+the lowest level Gemini 3.5-gen models support (they use `thinking_level`,
+not the older `thinking_budget` parameter, which caused a live 400
+INVALID_ARGUMENT when tried first; see docs/decisions.md) -- since extraction
+is parsing, not reasoning, and doesn't need deep thinking.
 """
 
 from __future__ import annotations
@@ -39,7 +41,7 @@ def extract_events(
     config = {
         "response_mime_type": "application/json",
         "response_schema": list[ExtractedEvent],
-        "thinking_config": types.ThinkingConfig(thinking_budget=0),
+        "thinking_config": types.ThinkingConfig(thinking_level=types.ThinkingLevel.MINIMAL),
     }
 
     result = generate(

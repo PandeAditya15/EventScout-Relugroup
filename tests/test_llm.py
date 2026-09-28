@@ -69,6 +69,11 @@ def test_grounding_sources_and_search_queries_survive_a_cache_hit():
     assert second.cache_hit is True
     assert [s.url for s in second.sources] == urls
     assert second.search_queries_executed == 2
+
+    # The ledger's own tally must count the cached call's searches too --
+    # not just the GenerateResult -- otherwise a run's reported search-query
+    # total silently drops to 0 for every category served from cache.
+    assert ledger.search_queries_executed == 4
     assert client.call_count == 1
 
 
