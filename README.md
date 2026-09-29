@@ -16,22 +16,76 @@ cp .env.example .env   # fill in GEMINI_API_KEY (required); other keys optional
 connectors that need them are skipped with a warning if unset. OpenLigaDB
 needs no key at all.
 
-## Running
+## Running the pipeline end to end
+
+**1. Verify the code (no network, no cost):**
 
 ```bash
-uv run eventscout smoke-test        # confirm your API key works, list available models
-uv run eventscout export-schema     # write schema/events.schema.json
+uv run ruff check . && uv run ruff format --check . && uv run pytest -q
+```
 
-uv run eventscout run --dry-run                    # preview planned calls, no API calls
-uv run eventscout run                              # full run: all categories, all sources
+**2. Confirm your API key works (one tiny live call):**
+
+```bash
+uv run eventscout smoke-test        # lists the Gemini models your key can use
+```
+
+**3. Preview a run before spending anything:**
+
+```bash
+uv run eventscout run --dry-run     # prints planned calls, makes zero API calls
+```
+
+**4. The real end-to-end run:**
+
+```bash
+uv run eventscout run --max-cost-usd 0.30
+```
+
+Runs discover → extract → clean → enrich → export across all 6 categories and
+both sources. `--max-cost-usd` is a hard cap — the run refuses to start a new
+paid call once spend reaches it. Identical calls are cached, so re-running
+after the first time is usually close to $0.
+
+To force a fully live run (bypass the cache and see real behavior/cost again):
+
+```bash
+uv run eventscout run --max-cost-usd 0.50 --no-cache
+```
+
+**5. Look at the result:**
+
+```bash
+uv run python -c "
+import json
+data = json.load(open('events_oct_2026.json'))
+print('events:', len(data['events']))
+print('stats:', data['stats'])
+for e in data['events']:
+    print('-', e['name'], '|', e['category'])
+"
+```
+
+**Useful variations while testing:**
+
+```bash
+# One category, one source — cheap and fast for spot-checking
 uv run eventscout run --categories sports --sources openligadb --max-cost-usd 0.10
+
+# A genuinely fresh city/month, nothing cached
+uv run eventscout run --city Hamburg --country DE --month 2026-11 --sources gemini --max-cost-usd 0.30
+```
+
+**Other commands:**
+
+```bash
+uv run eventscout export-schema     # (re)write schema/events.schema.json from the live models
 ```
 
 Key flags: `--city`, `--country`, `--month` (default Munich/DE/2026-10),
 `--categories` (comma-separated, default all six), `--sources`
 (comma-separated: `gemini`, `openligadb`; default both), `--max-cost-usd`
-(default 2.0 — the run refuses a new paid call once spend reaches this),
-`--no-cache`.
+(default 2.0), `--no-cache`.
 
 Output: `events_<mon>_<year>.json` at the repo root (e.g.
 `events_oct_2026.json`), validated against `schema/events.schema.json`.
@@ -81,7 +135,3 @@ source. Ticketmaster and Nominatim connectors are not built yet.
 
 See [docs/decisions.md](docs/decisions.md) for the non-obvious choices made
 along the way, including real bugs found only by running the pipeline live.
-
-```bash
-uv run ruff check . && uv run ruff format --check . && uv run pytest -q
-```
