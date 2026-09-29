@@ -5,6 +5,52 @@ attendance, and outputs strict, schema-validated JSON: event details, who's
 likely to attend and where they're likely to come from, with the sources behind
 every claim.
 
+## Approach
+
+Two source types feed one shared pipeline. Gemini's grounded search discovers
+and extracts events per category; OpenLigaDB deterministically returns Munich
+football fixtures. Both produce the same intermediate shape (`RawEvent`), so
+everything downstream — cleaning, enrichment, export — doesn't care which
+source an event came from.
+
+```
+     city / country / month
+                │
+                ▼
+   ┌─────────────────────────┐
+   │ discover (per category) │  gemini-3.5-flash + google_search
+   └─────────────────────────┘
+                │  text + sources
+                ▼
+   ┌─────────────────────────┐
+   │         extract         │  gemini-3.5-flash-lite, structured JSON
+   └─────────────────────────┘
+                │  list[RawEvent]          ◀── OpenLigaDB also joins here (free, no key)
+                ▼
+   ┌─────────────────────────┐
+   │          clean          │  resolve URLs, filter month/city, dedupe
+   └─────────────────────────┘
+                │  deduped RawEvent
+                ▼
+   ┌─────────────────────────┐
+   │         enrich          │  gemini-3.5-flash-lite, batches of 5
+   └─────────────────────────┘
+                │  EnrichedRawEvent
+                ▼
+   ┌─────────────────────────┐
+   │         export          │  build final Event, write JSON
+   └─────────────────────────┘
+                │
+                ▼
+     events_oct_2026.json (schema-valid)
+
+Every discover/extract/enrich call goes through one wrapper (llm.py):
+cache lookup -> budget check -> retry (tenacity, on 429/5xx) -> cost record
+```
+
+A more detailed, file-by-file architecture reference with the same diagram is
+also published [here](https://claude.ai/artifact/YDvGRtEccs1tKGK9nFBk35).
+
 ## Setup
 
 ```bash
@@ -103,6 +149,34 @@ Attributions actually present in a given run's output (`attributions` field)
 depend on which sources contributed at least one event — see
 `stages/export.py`.
 
+## Key decisions and trade-offs
+
+The full rationale for every non-obvious choice is in
+[docs/decisions.md](docs/decisions.md), written as they were made. The
+highlights:
+
+- **Model IDs and prices are never guessed.** `smoke-test` lists real
+  available models; the first pick (`gemini-2.5-flash`) turned out to be
+  deprecated for this API key despite being listed — only a real live call
+  caught that. Pricing was fetched from the official page twice to confirm.
+- **Every pipeline bug found in this project was found by running it live,
+  not by unit tests.** Five separate bugs (wrong SDK method, a client
+  garbage-collected mid-request, a deprecated model, the wrong thinking-config
+  parameter, a cost ledger undercounting cached search queries) were all
+  invisible to 60+ passing tests because those tests use a fake Gemini client.
+  Two more (a stadium not matching its own city's name, German venue names
+  failing an English-only location filter) were found by manually reading the
+  output next to real event names, not by any automated check.
+- **A feature was built, tested, and then reverted:** citing which specific
+  source backs an attendance figure. It shipped clean, passed its tests, and
+  then was found to be confidently citing the wrong page once checked against
+  real data — reverted to an honest `null` rather than kept. See Limitations
+  below for the deeper issue that revealed.
+- **Total spend so far: ~$0.76 of the $5 project budget** (~15%), across every
+  live test, bug-fix verification, and full regeneration in this build — not
+  just the final run. A single fresh `--no-cache` run today costs roughly
+  $0.05-0.30 depending on how much grounded search results vary.
+
 ## Limitations
 
 - **Per-event source attribution is approximate, not precise.** Gemini's grounded search reports
@@ -125,13 +199,38 @@ depend on which sources contributed at least one event — see
 - **Ticketmaster coverage is unconfirmed** for Munich — that connector isn't built yet (see Data
   sources above).
 
+## Next steps
+
+- Venue-calendar scrapers for major Munich venues (Messe München, Olympiapark,
+  muenchen.de) as an additional, deterministic source alongside grounded search.
+- Trade fair final reports (many publish attendance/visitor-origin figures
+  after the event) as stronger evidence than a model's estimate.
+- German-language discovery queries, since English-only prompts likely miss
+  events that are well-documented but only in German.
+- URL liveness checks on cited sources at export time, to catch dead links
+  before they reach the deliverable.
+- A small labelled eval set (a hand-checked list of real Munich October
+  events) to measure precision/recall instead of relying on spot-checks.
+- Scheduled refresh: re-running periodically as event listings firm up closer
+  to the target month, rather than one snapshot.
+- Finish Ticketmaster and Nominatim connectors (blocked on API keys), and the
+  proper fix for source attribution precision (see Limitations) using
+  Gemini's `grounding_supports` field.
+
 ## Status
 
-Milestones 1-5 (partial): config, output schema, disk cache, cost ledger,
-Gemini wrapper, and the full discover → extract → clean → enrich → export
-pipeline all work end-to-end and have been run live against the real API, not
-just tested with fakes. The OpenLigaDB connector adds a second, deterministic
-source. Ticketmaster and Nominatim connectors are not built yet.
+Milestones 1-5 (partial) and 7: config, output schema, disk cache, cost
+ledger, Gemini wrapper, and the full discover → extract → clean → enrich →
+export pipeline all work end-to-end and have been run live against the real
+API, not just tested with fakes. The OpenLigaDB connector adds a second,
+deterministic source. Ticketmaster and Nominatim connectors are not built yet.
+
+**Milestone 6 (optional Supabase persistence layer) was skipped by design** —
+the brief marks it optional, and the JSON file remains the actual deliverable
+either way; `--store none` (the only mode that exists) is the default.
+
+Git history has been scanned for secrets (API keys, tokens, credential-bearing
+URLs) — none found; `.env` has never been committed.
 
 See [docs/decisions.md](docs/decisions.md) for the non-obvious choices made
 along the way, including real bugs found only by running the pipeline live.

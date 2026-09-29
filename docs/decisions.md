@@ -328,3 +328,10 @@ URLs -- just not about the event they were attached to.
   a URL is present and well-formed, never that it's topically relevant to the event it's attached
   to -- fuzzy relevance isn't something a unit test can assert. Only manually reading the output
   side-by-side with event names caught it.
+
+## 2026-09-29 — Milestone 7: git history secret scan
+
+Per the brief's definition of done, scanned the full git history with read-only commands:
+`git log --all --full-history -- .env` (no results -- `.env` was never committed) and a pattern
+search across every commit's diff for API-key-shaped strings (`AIza...`, generic `api_key=...`,
+`sk-...`, credential-bearing `postgres://` URLs). No matches. Git history is clean.
