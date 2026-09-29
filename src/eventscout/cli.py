@@ -24,6 +24,7 @@ from eventscout.config import (
     REPO_ROOT,
     SCHEMA_DIR,
 )
+from eventscout.connectors.openligadb import fetch_munich_home_matches
 from eventscout.cost import BudgetExceededError, CostLedger
 from eventscout.models import EventCategory, EventScoutOutput
 from eventscout.stages.clean import clean_events
@@ -35,6 +36,7 @@ from eventscout.stages.extract import extract_events
 app = typer.Typer(help="Find real-world events in a city/month, with sourced evidence.")
 
 DISCOVERABLE_CATEGORIES = [c for c in EventCategory if c != EventCategory.OTHER]
+AVAILABLE_SOURCES = {"gemini", "openligadb"}
 
 
 @app.command(name="smoke-test")
@@ -61,6 +63,23 @@ def _parse_categories(categories: str | None) -> list[EventCategory]:
     return [EventCategory(name.strip()) for name in categories.split(",") if name.strip()]
 
 
+def _parse_sources(sources: str) -> set[str]:
+    requested = {name.strip() for name in sources.split(",") if name.strip()}
+    unknown = requested - AVAILABLE_SOURCES
+    if unknown:
+        raise typer.BadParameter(f"Unknown source(s): {', '.join(sorted(unknown))}")
+    return requested
+
+
+def _bundesliga_season_for_month(year: int, month_num: int) -> int:
+    """The Bundesliga season starting year for OpenLigaDB (brief: '2026 means
+    2026/27'). The season runs roughly August-May, so a month before August
+    belongs to the season that started the previous year. Not stated
+    explicitly in the brief; a reasonable judgment call, not a guess about
+    OpenLigaDB's own data -- see docs/decisions.md."""
+    return year if month_num >= 8 else year - 1
+
+
 @app.command()
 def run(
     city: str = typer.Option("Munich", help="Target city"),
@@ -68,6 +87,9 @@ def run(
     month: str = typer.Option("2026-10", help="Target month, YYYY-MM"),
     categories: str | None = typer.Option(
         None, help="Comma-separated categories to discover; defaults to all"
+    ),
+    sources: str = typer.Option(
+        "gemini,openligadb", "--sources", help="Comma-separated sources to use"
     ),
     max_cost_usd: float = typer.Option(
         DEFAULT_MAX_COST_USD, "--max-cost-usd", help="Abort before starting a call once spent"
@@ -83,9 +105,12 @@ def run(
     the repo root.
     """
     selected = _parse_categories(categories)
+    selected_sources = _parse_sources(sources)
+    year, month_num = (int(part) for part in month.split("-"))
 
     if dry_run:
         typer.echo(f"Would run for {city}, {country}, {month}")
+        typer.echo(f"Sources: {', '.join(sorted(selected_sources))}")
         typer.echo(f"Categories ({len(selected)}): {', '.join(c.value for c in selected)}")
         typer.echo(f"Discovery model: {DISCOVERY_MODEL}  |  Extraction/enrich model: {CHEAP_MODEL}")
         typer.echo(
@@ -107,6 +132,19 @@ def run(
     models_client = client.models
     ledger = CostLedger(max_cost_usd=max_cost_usd)
     all_events = []
+
+    if "openligadb" in selected_sources:
+        season = _bundesliga_season_for_month(year, month_num)
+        typer.echo(f"Fetching OpenLigaDB (season {season})...")
+        with httpx.Client() as ligadb_client:
+            openligadb_events = fetch_munich_home_matches(
+                season=season, month=month, http_client=ligadb_client, use_cache=not no_cache
+            )
+        typer.echo(f"  found {len(openligadb_events)} home match(es)")
+        all_events.extend(openligadb_events)
+
+    if "gemini" not in selected_sources:
+        selected = []
 
     try:
         for category in selected:
@@ -162,7 +200,6 @@ def run(
     interim_path.parent.mkdir(parents=True, exist_ok=True)
     interim_path.write_text(output.model_dump_json(indent=2))
 
-    year, month_num = (int(part) for part in month.split("-"))
     month_abbr = calendar.month_abbr[month_num].lower()
     final_path = REPO_ROOT / f"events_{month_abbr}_{year}.json"
     final_path.write_text(output.model_dump_json(indent=2))

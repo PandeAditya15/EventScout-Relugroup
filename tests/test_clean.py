@@ -137,6 +137,21 @@ def test_filter_drops_event_in_wrong_city():
     assert wrong_location == 1
 
 
+def test_filter_keeps_event_with_german_language_venue():
+    # Found live: German-sourced venues give the German city name ("München"),
+    # which an exact-substring check against "Munich" doesn't match.
+    event = make_event(
+        start_date=date(2026, 10, 5),
+        venue_name="Messe München",
+        venue_address="81823 München, Germany",
+    )
+
+    kept, _, wrong_location = filter_by_month_and_location([event], month="2026-10", city="Munich")
+
+    assert kept == [event]
+    assert wrong_location == 0
+
+
 def test_filter_keeps_event_with_unknown_location():
     event = make_event(start_date=date(2026, 10, 5), venue_name=None)
 

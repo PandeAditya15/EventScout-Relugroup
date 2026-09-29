@@ -208,3 +208,64 @@ despite the real count sitting right there in the cached payload.
 - Not a bug: nothing malfunctioned, and `--max-cost-usd` correctly would have aborted before
   exceeding its cap had spend gotten close. This is a cost-estimation and pricing-model lesson, not
   a correctness issue.
+
+## 2026-09-29 — Milestone 5, OpenLigaDB connector: verification findings and a real bug
+
+- **League coverage, verified live against `getavailableteams` for bl1/bl2/bl3 (season 2026):**
+  only FC Bayern München appears among Munich clubs. TSV 1860 München (commonly 3. Liga) is not
+  listed in any of the three tiers this season. Per the user's decision, the connector covers only
+  FC Bayern München -- no other Munich club is guessed at or included.
+- **`team1` = home team, confirmed with the user against real fixture data,** not against an
+  official doc (none was found stating this explicitly). The evidence: Bayern alternates being
+  listed as team1/team2 in exactly the pattern a real fixture list alternates home/away.
+- **Stadium mapping (`MUNICH_CLUB_STADIUMS` in config.py) is user-confirmed, not memorized:**
+  Allianz Arena, capacity 75,000, source `https://www.allianz-arena.com/en/`.
+- **Season-from-month is a judgment call:** the brief confirms "season is the starting year" but
+  not how to derive it from an arbitrary target month. `_bundesliga_season_for_month` in `cli.py`
+  uses August as the season-start cutoff (a month before August belongs to the previous year's
+  season) -- a reasonable assumption about how Bundesliga scheduling works, not a claim about
+  OpenLigaDB's own data.
+- **Real bug found on the first live OpenLigaDB run:** both fetched matches were dropped by
+  `clean.py`'s location filter, because "Allianz Arena" doesn't contain the string "Munich" and the
+  connector left `venue_address`/`venue_district` empty. Fixed by setting `venue_district="Munich"`
+  in `openligadb.py` -- safe because every entry in `MUNICH_CLUB_STADIUMS` is, by construction, a
+  Munich club's stadium, not an inferred fact. Verified fixed by inspecting the same live response
+  again after the fix.
+- **Attribution:** OpenLigaDB requires ODbL attribution. `export.py`'s `ATTRIBUTION_BY_SOURCE` now
+  maps each `DiscoverySource` to its `Attribution`, included only when that source actually
+  contributed an event to the output -- an attribution for a source with zero results would be
+  misleading.
+
+## 2026-09-29 — Second real bug from a live run: German venue names failed location filtering
+
+Regenerating the full deliverable after the OpenLigaDB fix (all 6 categories + openligadb, capped
+thinking on discover) surfaced another real bug: `trade_fair_congress` went from 6 raw events
+discovered to 0 in the final output -- all 6 were dropped as `wrong_location`.
+
+- **Cause:** `_matches_location` did an exact substring check for `"munich"` against venue text.
+  German sources (very common for a German trade fair) give the German city name -- "Messe
+  München", "81823 München, Germany" -- which doesn't contain the substring "Munich" at all.
+  Verified directly: `_matches_location(event_with_venue="Messe München", city="Munich")` returned
+  `False`.
+- **Decision:** switched to `rapidfuzz.fuzz.partial_ratio(city, venue_field) >= 60`. Tested against
+  real city-name pairs: Munich/München scores 73, Vienna/Wien scores 75, while wrong cities score
+  25-36 (Berlin, Hamburg, Nuremberg, Augsburg) -- a comfortable margin at threshold 60.
+- **Known limitation, not fully solved:** fuzzy string matching only catches local names that are
+  lexically close to the English name. A city whose local name is a genuinely different word
+  (Cologne/Köln scores only 50, which would still fail at this threshold) would still be
+  incorrectly dropped. This is a real gap, not claimed as solved -- a proper fix needs an actual
+  translation/exonym table, out of scope here. This is the same class of issue the brief already
+  flags as an expected limitation ("bias towards English-language ... events").
+- **This bug was also invisible to unit tests** until a live run produced real German-language
+  venue text -- the existing location-filter tests only used English venue strings. Added a test
+  with a real German venue string to close that gap.
+- **Measured, not just inferred, cost impact of the earlier thinking-level fix:** this full
+  regeneration (6 categories + OpenLigaDB, discover capped to `thinking_level=LOW`) cost $0.2665,
+  versus $0.4173 for the equivalent run before that fix -- roughly 36% lower, though not a clean
+  apples-to-apples comparison since live grounded search returned a different number of events
+  between the two runs (24 vs 35 final events).
+- **First real cross-source corroboration observed:** both OpenLigaDB fixtures (Bayern vs RB
+  Leipzig, Bayern vs Dortmund) were independently found by Gemini's grounded search too, and
+  `clean.py`'s dedup correctly merged them into corroborated events (`corroborated_count: 2`,
+  `discovered_via` containing both `openligadb_api` and `gemini_grounded_search`) -- the first live
+  proof that the cross-source merge logic built in milestone 3 actually works as intended.
