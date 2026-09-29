@@ -269,3 +269,62 @@ discovered to 0 in the final output -- all 6 were dropped as `wrong_location`.
   `clean.py`'s dedup correctly merged them into corroborated events (`corroborated_count: 2`,
   `discovered_via` containing both `openligadb_api` and `gemini_grounded_search`) -- the first live
   proof that the cross-source merge logic built in milestone 3 actually works as intended.
+
+## 2026-09-29 — Quality pass on the deliverable: attendance figures had no source
+
+Reviewing `events_oct_2026.json` field-by-field (not just schema validity) found that every
+`estimated`-basis attendance figure had `source_url: null` -- e.g. EXPO REAL's 40,000 and the
+Marathon's 28,500 had no way to trace which source stated that number, even though the event
+itself had sources generally. `ExtractedEvent` never asked the model which source specifically
+backs the attendance claim.
+
+- **Decision:** added `attendance_source_number` to `ExtractedEvent` (mirroring the existing
+  `source_numbers` pattern) and the extraction prompt, resolved to a real URL in `extract.py`.
+- **Same bug pattern found again immediately after fixing it:** the resolved URL was still a raw
+  `vertexaisearch.cloud.google.com/redirect/...` link, because `clean.py`'s URL resolution only
+  ever touched `event.sources`, not the separate `attendance_source_url` field. Fixed by
+  extracting the resolution logic into a plain `_resolve_url()` helper reused for both. This is
+  the third time in this project a "resolve/attribute this one field too" gap has been found only
+  by inspecting real output, not by schema validation, which happily accepts a `null` or an
+  unresolved URL as valid.
+- Regenerating cost $0.0532 (extraction cache invalidated by the prompt/schema change; discover
+  stayed cached). `events_oct_2026.json` now has 30 events, every attendance figure with a value
+  also has a real, resolved source URL.
+
+## 2026-09-29 — Reverted attendance_source_number: it was confidently wrong, and revealed a deeper gap
+
+Spot-checking the regenerated output for topical relevance (not just "is there a URL", which
+schema validation already confirmed) found the attendance-source feature above was actively
+citing the wrong page: "Munich Quantum Software Forum 2026" cited a Performance Days trade-fair
+page; "The Munich AI Conference 2026" cited an Expo Real blog post. Both are real, resolvable
+URLs -- just not about the event they were attached to.
+
+- **Decision: reverted `attendance_source_number` entirely** (removed from `ExtractedEvent`, the
+  prompt, and `extract.py`). `attendance_source_url` is now always `null` for Gemini-sourced
+  events, with a comment explaining why. A wrong-but-confident citation is worse than an honest
+  `null` -- it looks more rigorous than it is.
+- **The deeper finding: this isn't isolated to the new field.** Checking `The Munich AI
+  Conference 2026`'s own general `evidence.sources` (the `source_numbers` mechanism from
+  milestone 2, backing every event in the pipeline) showed the *same* problem -- its sources were
+  also a Performance Days page and an unrelated exhibits page, not anything about an AI
+  conference.
+- **Root cause:** `discover.py` only extracts `grounding_chunks` (the flat, deduplicated list of
+  every source cited anywhere in a response) and never `grounding_supports` (the field that maps
+  specific text spans to specific chunk indices). Without that mapping, the discovery response's
+  raw text has no inline citations, so when `extract.py` later asks a separate model call "which
+  numbered source backs event X," that model has no real signal to work with -- it can only guess
+  from surrounding context, and does so unreliably once a single discovery response covers many
+  events sharing one large source list (a category like trade_fair_congress can have 30-48
+  sources for 6-8 events).
+- **This means `evidence.sources` on every Gemini-derived event should be read as "sources cited
+  somewhere in the same discovery response," not "sources specifically about this event."** The
+  events themselves are still real (grounded search found real pages), but the per-event source
+  attribution is less precise than the schema's shape implies. Flagged as a known limitation for
+  now (see README) rather than fixed immediately -- a proper fix means parsing
+  `grounding_supports` and aligning extracted events back to text spans, a bigger change than
+  this session's remaining scope.
+- **Why this stayed invisible for three milestones:** every test that touches `source_numbers`
+  (both fake-client unit tests and the "does it validate against the schema" check) only confirms
+  a URL is present and well-formed, never that it's topically relevant to the event it's attached
+  to -- fuzzy relevance isn't something a unit test can assert. Only manually reading the output
+  side-by-side with event names caught it.

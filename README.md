@@ -49,6 +49,28 @@ Attributions actually present in a given run's output (`attributions` field)
 depend on which sources contributed at least one event — see
 `stages/export.py`.
 
+## Limitations
+
+- **Per-event source attribution is approximate, not precise.** Gemini's grounded search reports
+  which pages it used overall for a response, but not which specific sentence came from which
+  page. When one discovery call covers several events sharing a large pool of sources (common for
+  categories like trade fairs), the extraction step can attach a real, valid URL to the wrong
+  event. The events themselves are real; the specific citation on any one event may not be the
+  exact page that stated that specific fact. See `docs/decisions.md` (2026-09-29 entries) for the
+  full investigation. A proper fix would use Gemini's `grounding_supports` field to preserve the
+  real text-to-source mapping, which `discover.py` doesn't currently capture.
+- **LLM recall gaps.** Grounded search finds what's indexed and prominent; smaller or
+  recently-announced events are more likely to be missed than major ones.
+- **Audience and geographic-origin fields are inferences**, not measurements — always labeled as
+  such, with a confidence level and rationale, but ultimately the model's estimate from event
+  type/scale, not survey data.
+- **Bias towards English-language and large events.** Discovery prompts and result ranking
+  naturally favor content that ranks well in English-language search.
+- **Attendance figures are inconsistently available** and, when present, of mixed reliability
+  (`reported` vs `estimated` is itself model-judged for non-connector sources).
+- **Ticketmaster coverage is unconfirmed** for Munich — that connector isn't built yet (see Data
+  sources above).
+
 ## Status
 
 Milestones 1-5 (partial): config, output schema, disk cache, cost ledger,

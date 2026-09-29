@@ -104,6 +104,12 @@ def _to_raw_event(
         price_note=extracted.price_note,
         attendance_value=extracted.attendance_value,
         attendance_basis=extracted.attendance_basis,
+        # attendance_source_url is deliberately left null here: an earlier
+        # attempt to have the model cite which specific source states the
+        # number produced confidently wrong citations (see docs/decisions.md)
+        # -- extraction has no real signal linking a specific fact to a
+        # specific source number, since discover.py doesn't preserve
+        # grounding_supports (the text-span-to-source mapping).
         sources=cited,
         discovered_via=[DiscoverySource.GEMINI_GROUNDED_SEARCH],
     )

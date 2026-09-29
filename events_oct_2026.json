@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-09-28T23:56:00.407747Z",
+  "generated_at": "2026-09-29T00:33:10.012837Z",
   "query": {
     "city": "Munich",
     "country_code": "DE",
@@ -17,8 +17,8 @@
     ],
     "search_queries_executed": 37,
     "api_calls": 18,
-    "cache_hits": 16,
-    "estimated_cost_usd": 0.0071134
+    "cache_hits": 18,
+    "estimated_cost_usd": 0.0
   },
   "attributions": [
     {

@@ -224,6 +224,23 @@ def test_drop_unsourced_removes_events_with_no_sources():
 # --- clean_events orchestrator --------------------------------------------------
 
 
+def test_clean_events_resolves_attendance_source_url_too(isolated_cache):
+    # Found live: attendance_source_url was left as a raw Google redirect
+    # link because only `event.sources` went through resolve_source_urls.
+    def handler(request):
+        if str(request.url) == "https://vertexaisearch.example/redirect/attendance":
+            return httpx.Response(302, headers={"Location": "https://real-site.example/numbers"})
+        return httpx.Response(200)
+
+    client = mock_client(handler)
+    event = make_event(name="Big Fair", start_date=date(2026, 10, 5))
+    event.attendance_source_url = "https://vertexaisearch.example/redirect/attendance"
+
+    result = clean_events([event], month="2026-10", city="Munich", http_client=client)
+
+    assert result.events[0].attendance_source_url == "https://real-site.example/numbers"
+
+
 def test_clean_events_end_to_end(isolated_cache):
     client = mock_client(lambda request: httpx.Response(200))
     events = [
