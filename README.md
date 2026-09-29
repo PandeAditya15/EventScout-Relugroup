@@ -177,6 +177,123 @@ highlights:
   just the final run. A single fresh `--no-cache` run today costs roughly
   $0.05-0.30 depending on how much grounded search results vary.
 
+## Engineering practices
+
+### Process: small batches, one thing in flight, verify immediately
+
+Work followed a Kanban-style continuous flow, not sprint-based Scrum: the milestone plan (M1-M7)
+was broken into small, single-purpose steps, only one of which was ever in progress at a time
+(a WIP limit of 1), and each step was verified — `ruff check`, `ruff format --check`, `pytest` —
+*before* starting the next one, never batched up. No step estimation, no fixed-length iteration;
+just small batch size and a hard rule against moving on with something unverified.
+
+**Why test at every step, not just at the end:** two different kinds of tests catch two different
+kinds of bugs, and both are necessary.
+
+- **Fast unit tests** (66 of them, all using a fake Gemini client or a mocked HTTP transport) run
+  in ~1 second, cost nothing, and catch *logic* regressions immediately — a budget-cap boundary
+  condition, a date-overlap edge case, a cache key collision.
+- **They cannot catch integration failures.** All 66 tests were green when the pipeline's first
+  real live call hit three bugs back to back: a wrong SDK method name, a client object garbage
+  collected mid-request, and a model ID that was deprecated despite being listed as available.
+  None of that is visible to a test built on a fake client that always behaves exactly as expected.
+- The practical rule this produced: run the real pipeline against the real API at the end of
+  *every* milestone, not just once at the very end of the project. A bug caught the day it's
+  introduced costs one fix; the same bug caught four milestones later means questioning whether
+  everything built on top of the wrong assumption in between is also wrong. This is exactly what
+  happened three separate times in this project (see `docs/decisions.md`) — each time, a live run
+  surfaced something 60+ passing tests had missed, and each time it was fixed within the same
+  session because nothing else had been built on top of it yet.
+
+### Code organization: built to containerize and relocate without changes
+
+The codebase has no hardcoded filesystem paths anywhere (verified: `grep` for absolute paths
+across `src/` returns nothing) and no configuration baked into code — every secret and path comes
+from either `os.environ` (`config.py`) or `Path(__file__).resolve()` (so `REPO_ROOT` is wherever
+the code actually lives, not a fixed location). Dependencies are locked in `uv.lock` and declared
+in `pyproject.toml`, so `uv sync` reproduces an identical environment anywhere.
+
+The only state the pipeline writes is `cache/` and `data/interim/` — both already gitignored,
+both safe to mount as a volume or discard entirely. That combination means a container image for
+this project needs no code changes, just:
+
+```dockerfile
+FROM python:3.11-slim
+COPY . /app
+WORKDIR /app
+RUN pip install uv && uv sync
+ENTRYPOINT ["uv", "run", "eventscout"]
+```
+
+(No Dockerfile exists in this repo yet — this is what one would look like, not a claim that
+containerization has been done.) The same portability is *why* the architecture would tolerate
+being "shifted" — moved to a different host, run in CI, or split into a scheduled job — without
+touching application code, only environment variables.
+
+### Why debugging stays simple
+
+Every pipeline stage (`discover`, `extract`, `clean`, `enrich`, `export`) is a typed pure
+function: given the same input, it produces the same output, with no hidden state. `clean.py` and
+`export.py` take their HTTP client as a parameter instead of constructing one internally
+(dependency injection), which is exactly why they could be covered by 40+ tests that never touch
+the real network.
+
+That structure turns "where's the bug" into a fast, mechanical question instead of a guessing
+game: SDK/network mechanics can only be in `llm.py`; prompt or extraction-quality issues can only
+be in `prompts.py`/`discover.py`/`extract.py`; output-shape issues can only be in `export.py`. In
+practice, isolating the location-filter bug found in milestone 5 took one three-line Python
+snippet calling `_matches_location()` directly in a REPL — not a full, several-cent pipeline run —
+because the function being debugged had no dependencies to fake.
+
+### Caching, CAP theorem, and load balancing
+
+**Caching is real and already load-bearing here.** `cache.py` hashes `(model, prompt, config)`
+with sha256 and serves an identical future call from disk for $0. This is the same role a
+reverse-proxy or CDN cache plays in front of an expensive, rate-limited origin server — protect
+the metered resource from redundant load. It's not theoretical: the same 6-category run that cost
+$0.4173 live cost $0.0000 on a fully-cached repeat.
+
+**CAP theorem and load balancers, honestly, don't apply to EventScout as built** — and it's worth
+being precise about why, rather than reaching for them because they sound rigorous. CAP theorem
+describes a trade-off for systems maintaining *shared, replicated* state across network-partitioned
+*nodes*. EventScout is a single process, on one machine, with one writer and no replication — there
+is no partition to have a trade-off about. Load balancers distribute *concurrent client requests*
+across *multiple server instances*; EventScout has no server and nothing concurrent to distribute.
+Claiming otherwise for a batch CLI tool would be exactly the kind of unearned-rigor a reviewer
+should call out.
+
+**Where they'd become real, tied to this project's own deferred pieces:**
+
+- The optional Supabase/Postgres layer (milestone 6, not built) would be a genuine shared
+  datastore, and Postgres is a CP system by design — under a partition, it refuses to serve a read
+  or write it can't guarantee is consistent, rather than risk stale or conflicting data. Given that
+  layer's actual design (`INSERT ... ON CONFLICT (id) DO UPDATE`, idempotent upserts keyed by a
+  stable event ID), CP is the *correct* choice, not a compromise: two runs racing to upsert the
+  same event should converge to one correct row, and a loud failure beats a silently duplicated or
+  corrupted one.
+- Load balancing would matter if EventScout became a *service* — an API handling concurrent
+  requests for different city/month reports, or a fleet of workers processing many cities in
+  parallel. At that point the local disk cache would need to become a shared cache (e.g. Redis) so
+  N workers don't each pay for the same Gemini call, and a queue or load balancer would distribute
+  jobs across them. None of that exists today because the brief asks for one city, one month, one
+  process at a time — which is exactly what's built.
+
+### Trade-offs
+
+Beyond the ones in [Key decisions and trade-offs](#key-decisions-and-trade-offs) above:
+
+- **A local disk cache over a distributed one.** Correct for the actual current scale (one
+  process, one run at a time); upgrading to Redis is a scoped, well-understood change if
+  concurrency is ever added, not a rewrite — the cache's interface (`get`/`put` by key) wouldn't
+  need to change, only its storage backend.
+- **Consistency over availability for the (deferred) database layer.** Choosing Postgres/Supabase
+  already commits to CP; that's the right call for idempotent event upserts, but it's worth being
+  able to say *why* rather than treating it as the only option.
+- **Fixing bugs immediately over deferring cleanup.** Every bug found in live testing was fixed
+  and re-verified in the same session it was found, rather than logged for later — at the cost of
+  more, smaller live-testing iterations (and their small real cost) instead of one big batch at
+  the end.
+
 ## Limitations
 
 - **Per-event source attribution is approximate, not precise.** Gemini's grounded search reports
