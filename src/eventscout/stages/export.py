@@ -12,6 +12,7 @@ from eventscout.cost import CostLedger
 from eventscout.models import (
     Attribution,
     ConfidenceLevel,
+    DiscoverySource,
     Event,
     EventAttendance,
     EventDataQuality,
@@ -41,6 +42,20 @@ GEMINI_GROUNDING_ATTRIBUTION = Attribution(
     url="https://ai.google.dev/gemini-api/docs/grounding",
     license_or_terms="https://ai.google.dev/gemini-api/terms#grounding-with-google-search",
 )
+
+OPENLIGADB_ATTRIBUTION = Attribution(
+    source="OpenLigaDB",
+    url="https://www.openligadb.de/",
+    license_or_terms="Open Database License (ODbL) v1.0 -- https://opendatacommons.org/licenses/odbl/1-0/",
+)
+
+# Only included when that source actually contributed an event to the output
+# (see build_output) -- an attribution for a source with zero results in this
+# run would be misleading.
+ATTRIBUTION_BY_SOURCE: dict[DiscoverySource, Attribution] = {
+    DiscoverySource.GEMINI_GROUNDED_SEARCH: GEMINI_GROUNDING_ATTRIBUTION,
+    DiscoverySource.OPENLIGADB_API: OPENLIGADB_ATTRIBUTION,
+}
 
 
 def build_event(enriched: EnrichedRawEvent) -> Event | None:
@@ -184,7 +199,7 @@ def build_output(
             cache_hits=ledger.cache_hits,
             estimated_cost_usd=ledger.total_cost_usd,
         ),
-        attributions=[GEMINI_GROUNDING_ATTRIBUTION],
+        attributions=[ATTRIBUTION_BY_SOURCE[s] for s in sources_used if s in ATTRIBUTION_BY_SOURCE],
         stats=EventStats(
             event_count=len(events),
             by_category=dict(Counter(e.category.value for e in events)),

@@ -106,3 +106,39 @@ def test_build_output_aggregates_stats_and_drops_events_with_no_start_date():
     assert output.pipeline.search_queries_executed == 3
     assert output.pipeline.estimated_cost_usd == 0.01
     assert len(output.attributions) == 1
+
+
+def test_build_output_adds_openligadb_attribution_only_when_it_contributed():
+    gemini_only = make_enriched(discovered_via=[DiscoverySource.GEMINI_GROUNDED_SEARCH])
+    both_sources = make_enriched(
+        name="Match Day",
+        discovered_via=[DiscoverySource.GEMINI_GROUNDED_SEARCH, DiscoverySource.OPENLIGADB_API],
+    )
+    ledger = CostLedger(max_cost_usd=10.0)
+
+    gemini_only_output = build_output(
+        [gemini_only],
+        city="Munich",
+        country_code="DE",
+        month="2026-10",
+        models={"discovery": "m", "cheap": "m"},
+        ledger=ledger,
+        dropped_by_reason={},
+    )
+    with_openligadb_output = build_output(
+        [gemini_only, both_sources],
+        city="Munich",
+        country_code="DE",
+        month="2026-10",
+        models={"discovery": "m", "cheap": "m"},
+        ledger=ledger,
+        dropped_by_reason={},
+    )
+
+    assert [a.source for a in gemini_only_output.attributions] == [
+        "Google Search (via Gemini API grounding)"
+    ]
+    assert {a.source for a in with_openligadb_output.attributions} == {
+        "Google Search (via Gemini API grounding)",
+        "OpenLigaDB",
+    }

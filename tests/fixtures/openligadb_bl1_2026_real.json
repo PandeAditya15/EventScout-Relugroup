@@ -1,0 +1,30 @@
+[
+  {
+    "matchDateTime": "2026-08-28T20:30:00",
+    "matchDateTimeUTC": "2026-08-28T18:30:00Z",
+    "leagueShortcut": "bl1",
+    "team1": { "teamId": 40, "teamName": "FC Bayern München" },
+    "team2": { "teamId": 16, "teamName": "VfB Stuttgart" }
+  },
+  {
+    "matchDateTime": "2026-10-17T18:30:00",
+    "matchDateTimeUTC": "2026-10-17T16:30:00Z",
+    "leagueShortcut": "bl1",
+    "team1": { "teamId": 40, "teamName": "FC Bayern München" },
+    "team2": { "teamId": 1635, "teamName": "RB Leipzig" }
+  },
+  {
+    "matchDateTime": "2026-09-05T18:30:00",
+    "matchDateTimeUTC": "2026-09-05T16:30:00Z",
+    "leagueShortcut": "bl1",
+    "team1": { "teamId": 9, "teamName": "FC Schalke 04" },
+    "team2": { "teamId": 40, "teamName": "FC Bayern München" }
+  },
+  {
+    "matchDateTime": "2026-08-29T15:30:00",
+    "matchDateTimeUTC": "2026-08-29T13:30:00Z",
+    "leagueShortcut": "bl1",
+    "team1": { "teamId": 1635, "teamName": "RB Leipzig" },
+    "team2": { "teamId": 87, "teamName": "Borussia Mönchengladbach" }
+  }
+]

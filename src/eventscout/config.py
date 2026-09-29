@@ -68,3 +68,16 @@ PRICING: dict = {
 }
 
 DEFAULT_MAX_COST_USD = 2.0
+
+# --- OpenLigaDB club/stadium mapping ---------------------------------------
+# Confirmed 2026-09-29 with the user, not filled in from memory. Verified live
+# against getavailableteams for bl1/bl2/bl3 (season 2026): only FC Bayern
+# München appears among Munich clubs -- see docs/decisions.md.
+
+MUNICH_CLUB_STADIUMS: dict[str, dict] = {
+    "FC Bayern München": {
+        "stadium_name": "Allianz Arena",
+        "capacity": 75_000,
+        "capacity_source_url": "https://www.allianz-arena.com/en/",
+    },
+}

@@ -104,12 +104,25 @@ def _overlaps_month(event: RawEvent, month_start: date, month_end: date) -> bool
     return event.start_date <= month_end and end >= month_start
 
 
+CITY_MATCH_THRESHOLD = 60  # rapidfuzz partial_ratio score
+
+
 def _matches_location(event: RawEvent, city: str) -> bool:
+    """Fuzzy, not exact substring -- German-sourced venues routinely give the
+    city's German name (e.g. "München" for Munich), which found live: an
+    exact-substring check against the English city name dropped every event
+    at a German-language venue as wrong_location. Fuzzy matching handles
+    close variants (München/Munich, Wien/Vienna) but isn't a real
+    translation table -- a city whose local name is lexically unrelated to
+    its English name (Cologne/Köln) can still slip through as a false
+    negative. See docs/decisions.md."""
     fields = [event.venue_name, event.venue_address, event.venue_district]
     if not any(fields):
         return True  # unknown location: no evidence to drop on
     city_lower = city.lower()
-    return any(f and city_lower in f.lower() for f in fields)
+    return any(
+        f and fuzz.partial_ratio(city_lower, f.lower()) >= CITY_MATCH_THRESHOLD for f in fields
+    )
 
 
 # --- Step 3: name normalisation ----------------------------------------------
