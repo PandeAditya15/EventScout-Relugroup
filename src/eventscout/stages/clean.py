@@ -47,22 +47,30 @@ def resolve_source_urls(sources: list[SourceRef], client: httpx.Client) -> list[
 
 
 def _resolve_one(source: SourceRef, client: httpx.Client) -> SourceRef:
-    key = "resolve_url:" + hashlib.sha256(source.url.encode("utf-8")).hexdigest()
+    resolved_url, publisher_domain = _resolve_url(source.url, client)
+    return source.model_copy(update={"url": resolved_url, "publisher_domain": publisher_domain})
+
+
+def _resolve_url(url: str, client: httpx.Client) -> tuple[str, str | None]:
+    """Resolve one URL to its final destination (cached). Used for both
+    per-source URLs and the standalone `attendance_source_url` -- any
+    redirect link cited anywhere in a RawEvent needs the same treatment, or a
+    reader following the "cited" attendance figure would land on Google's
+    redirect service instead of the real page."""
+    key = "resolve_url:" + hashlib.sha256(url.encode("utf-8")).hexdigest()
     cached = cache_get(key)
     if cached is not None:
-        return source.model_copy(
-            update={"url": cached["resolved_url"], "publisher_domain": cached["publisher_domain"]}
-        )
+        return cached["resolved_url"], cached["publisher_domain"]
 
     try:
-        response = client.get(source.url, follow_redirects=True, timeout=5.0)
+        response = client.get(url, follow_redirects=True, timeout=5.0)
         resolved_url = str(response.url)
     except httpx.HTTPError:
-        resolved_url = source.url  # flagged by being identical to the original
+        resolved_url = url  # flagged by being identical to the original
 
     publisher_domain = httpx.URL(resolved_url).host
     cache_put(key, {"resolved_url": resolved_url, "publisher_domain": publisher_domain})
-    return source.model_copy(update={"url": resolved_url, "publisher_domain": publisher_domain})
+    return resolved_url, publisher_domain
 
 
 # --- Step 2: month-overlap and location filter ------------------------------
@@ -215,6 +223,8 @@ def clean_events(
 ) -> CleanResult:
     for event in events:
         event.sources = resolve_source_urls(event.sources, http_client)
+        if event.attendance_source_url is not None:
+            event.attendance_source_url, _ = _resolve_url(event.attendance_source_url, http_client)
 
     filtered, dropped_out_of_month, dropped_wrong_location = filter_by_month_and_location(
         events, month=month, city=city

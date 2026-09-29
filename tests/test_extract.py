@@ -89,6 +89,32 @@ def test_extract_events_converts_valid_json_to_raw_events():
     assert [s.url for s in event.sources] == ["https://example.org/a", "https://example.org/b"]
 
 
+def test_extract_events_leaves_attendance_source_url_null():
+    # Deliberately never populated: extraction has no reliable signal for
+    # which specific source backs a specific fact (see docs/decisions.md).
+    payload = [
+        {
+            "name": "Oktoberfest",
+            "start_date": "2026-09-19",
+            "attendance_value": 6000000,
+            "attendance_basis": "reported",
+            "source_numbers": [1, 2],
+        }
+    ]
+    client = FakeGeminiClient([make_response(json.dumps(payload))])
+    ledger = CostLedger(max_cost_usd=10.0)
+
+    events = extract_events(
+        client,
+        text="some discovery text",
+        sources=SOURCES,
+        category=EventCategory.FESTIVAL_CULTURE,
+        ledger=ledger,
+    )
+
+    assert events[0].attendance_source_url is None
+
+
 def test_extract_events_drops_events_with_no_source_numbers():
     payload = [{"name": "Unsourced Event", "source_numbers": []}]
     client = FakeGeminiClient([make_response(json.dumps(payload))])
