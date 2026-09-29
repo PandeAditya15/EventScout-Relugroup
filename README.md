@@ -5,6 +5,53 @@ attendance, and outputs strict, schema-validated JSON: event details, who's
 likely to attend and where they're likely to come from, with the sources behind
 every claim.
 
+## Approach
+
+Two source types feed one shared pipeline. Gemini's grounded search discovers
+and extracts events per category; OpenLigaDB deterministically returns Munich
+football fixtures. Both produce the same intermediate shape (`RawEvent`), so
+everything downstream — cleaning, enrichment, export — doesn't care which
+source an event came from.
+
+```
+     city / country / month
+                │
+                ▼
+   ┌─────────────────────────┐
+   │ discover (per category) │  gemini-3.5-flash + google_search
+   └─────────────────────────┘
+                │  text + sources
+                ▼
+   ┌─────────────────────────┐
+   │         extract         │  gemini-3.5-flash-lite, structured JSON
+   └─────────────────────────┘
+                │  list[RawEvent]          ◀── OpenLigaDB also joins here (free, no key)
+                ▼
+   ┌─────────────────────────┐
+   │          clean          │  resolve URLs, filter month/city, dedupe
+   └─────────────────────────┘
+                │  deduped RawEvent
+                ▼
+   ┌─────────────────────────┐
+   │         enrich          │  gemini-3.5-flash-lite, batches of 5
+   └─────────────────────────┘
+                │  EnrichedRawEvent
+                ▼
+   ┌─────────────────────────┐
+   │         export          │  build final Event, write JSON
+   └─────────────────────────┘
+                │
+                ▼
+     events_oct_2026.json (schema-valid)
+
+Every discover/extract/enrich call goes through one wrapper (llm.py):
+cache lookup -> budget check -> retry (tenacity, on 429/5xx) -> cost record
+```
+
+Full file-by-file breakdown: [docs/code_reference.md](docs/code_reference.md).
+A visual version of this diagram is also published
+[here](https://claude.ai/artifact/YDvGRtEccs1tKGK9nFBk35).
+
 ## Setup
 
 ```bash
@@ -19,69 +66,96 @@ needs no key at all.
 ## Running
 
 ```bash
-uv run eventscout smoke-test        # confirm your API key works, list available models
-uv run eventscout export-schema     # write schema/events.schema.json
+# 1. Verify the code (no network, no cost)
+uv run ruff check . && uv run ruff format --check . && uv run pytest -q
 
-uv run eventscout run --dry-run                    # preview planned calls, no API calls
-uv run eventscout run                              # full run: all categories, all sources
-uv run eventscout run --categories sports --sources openligadb --max-cost-usd 0.10
+# 2. Confirm your API key works (one tiny live call)
+uv run eventscout smoke-test
+
+# 3. Preview a run before spending anything
+uv run eventscout run --dry-run
+
+# 4. The real end-to-end run (hard cost cap; cached calls are free)
+uv run eventscout run --max-cost-usd 0.30
+
+# 5. Inspect the result
+uv run python -c "
+import json
+data = json.load(open('events_oct_2026.json'))
+print('events:', len(data['events']))
+print('stats:', data['stats'])
+"
 ```
 
-Key flags: `--city`, `--country`, `--month` (default Munich/DE/2026-10),
-`--categories` (comma-separated, default all six), `--sources`
-(comma-separated: `gemini`, `openligadb`; default both), `--max-cost-usd`
-(default 2.0 — the run refuses a new paid call once spend reaches this),
-`--no-cache`.
+Cheap/fast variations: `--categories sports --sources openligadb` (one
+category, one source) or `--no-cache` (force a fully live run). `uv run
+eventscout export-schema` regenerates `schema/events.schema.json`.
 
-Output: `events_<mon>_<year>.json` at the repo root (e.g.
-`events_oct_2026.json`), validated against `schema/events.schema.json`.
+Key flags: `--city`, `--country`, `--month` (default Munich/DE/2026-10),
+`--categories`, `--sources` (`gemini`, `openligadb`; default both),
+`--max-cost-usd` (default 2.0 — refuses a new paid call past this), `--no-cache`.
+
+Output: `events_<mon>_<year>.json` at the repo root, validated against
+`schema/events.schema.json`.
 
 ## Data sources
 
 | Source | What it provides | Key needed | License / terms |
 |---|---|---|---|
 | Gemini grounded search | Discovery + extraction for all 6 categories | `GEMINI_API_KEY` | [Gemini API Terms](https://ai.google.dev/gemini-api/terms#grounding-with-google-search) |
-| OpenLigaDB | FC Bayern München home matches (only Munich club confirmed in bl1/bl2/bl3) | none | [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/) |
-| Ticketmaster Discovery | Concerts/sports/theatre listings | `TICKETMASTER_API_KEY` (optional) | not yet built — milestone 5, pending a coverage test |
-| Nominatim (OpenStreetMap) | Geocoding venues missing coordinates | `NOMINATIM_CONTACT_EMAIL` (optional) | not yet built — milestone 5 |
+| OpenLigaDB | FC Bayern München home matches (only Munich club confirmed in bl1/bl2/bl3) | none | [ODbL](https://opendatacommons.org/licenses/odbl/1-0/) |
+| Ticketmaster Discovery | Concerts/sports/theatre listings | `TICKETMASTER_API_KEY` (optional) | not built yet — pending a coverage test |
+| Nominatim (OpenStreetMap) | Geocoding venues missing coordinates | `NOMINATIM_CONTACT_EMAIL` (optional) | not built yet |
 
-Attributions actually present in a given run's output (`attributions` field)
-depend on which sources contributed at least one event — see
-`stages/export.py`.
+Attributions in a run's output depend on which sources actually contributed
+an event — see `stages/export.py`.
+
+## Key decisions and trade-offs
+
+Full rationale for every non-obvious choice: [docs/decisions.md](docs/decisions.md).
+Highlights:
+
+- **Model IDs and prices are never guessed.** The first model picked
+  (`gemini-2.5-flash`) turned out deprecated despite being listed — only a
+  real call caught that.
+- **Every pipeline bug in this project was found by running it live, not by
+  unit tests** — five integration bugs and two data-quality bugs were all
+  invisible to 60+ passing fake-client tests.
+- **A feature (attendance source citation) was built, tested, shipped, then
+  reverted** after being found to confidently cite the wrong page against
+  real data — an honest `null` beats a wrong-looking citation.
+- **Local disk cache, not a distributed one** — correct for one process at a
+  time; a scoped upgrade (not a rewrite) if concurrency is ever added.
+- **Milestone 6 (Supabase) skipped by design** (optional per the brief); git
+  history has been scanned and has no secrets.
+- **Total spend: ~$0.76 of the $5 budget (~15%)**, across every live test and
+  fix in this build, not just the final run.
 
 ## Limitations
 
-- **Per-event source attribution is approximate, not precise.** Gemini's grounded search reports
-  which pages it used overall for a response, but not which specific sentence came from which
-  page. When one discovery call covers several events sharing a large pool of sources (common for
-  categories like trade fairs), the extraction step can attach a real, valid URL to the wrong
-  event. The events themselves are real; the specific citation on any one event may not be the
-  exact page that stated that specific fact. See `docs/decisions.md` (2026-09-29 entries) for the
-  full investigation. A proper fix would use Gemini's `grounding_supports` field to preserve the
-  real text-to-source mapping, which `discover.py` doesn't currently capture.
-- **LLM recall gaps.** Grounded search finds what's indexed and prominent; smaller or
-  recently-announced events are more likely to be missed than major ones.
-- **Audience and geographic-origin fields are inferences**, not measurements — always labeled as
-  such, with a confidence level and rationale, but ultimately the model's estimate from event
-  type/scale, not survey data.
-- **Bias towards English-language and large events.** Discovery prompts and result ranking
-  naturally favor content that ranks well in English-language search.
-- **Attendance figures are inconsistently available** and, when present, of mixed reliability
-  (`reported` vs `estimated` is itself model-judged for non-connector sources).
-- **Ticketmaster coverage is unconfirmed** for Munich — that connector isn't built yet (see Data
-  sources above).
+- **Per-event source attribution is approximate, not precise.** Gemini's
+  grounded search reports which pages it used overall, not which sentence
+  came from which page — so extraction can attach a real, valid URL to the
+  wrong event once one call covers many events sharing a large source pool.
+  A proper fix needs Gemini's `grounding_supports` field, not yet captured.
+- **LLM recall gaps** — smaller or recently-announced events are more likely
+  missed than major ones.
+- **Audience/geographic-origin are inferences**, not measurements — always
+  labeled as such with a confidence level and rationale.
+- **Bias towards English-language and large events.**
+- **Attendance figures are inconsistently available**, and `reported` vs
+  `estimated` is itself model-judged for non-connector sources.
+- **Ticketmaster coverage for Munich is unconfirmed** — not built yet.
 
-## Status
+## Next steps
 
-Milestones 1-5 (partial): config, output schema, disk cache, cost ledger,
-Gemini wrapper, and the full discover → extract → clean → enrich → export
-pipeline all work end-to-end and have been run live against the real API, not
-just tested with fakes. The OpenLigaDB connector adds a second, deterministic
-source. Ticketmaster and Nominatim connectors are not built yet.
-
-See [docs/decisions.md](docs/decisions.md) for the non-obvious choices made
-along the way, including real bugs found only by running the pipeline live.
-
-```bash
-uv run ruff check . && uv run ruff format --check . && uv run pytest -q
-```
+- Venue-calendar scrapers (Messe München, Olympiapark, muenchen.de) as an
+  additional deterministic source.
+- Trade fair final reports as stronger attendance/origin evidence than a
+  model estimate.
+- German-language discovery queries.
+- URL liveness checks on cited sources at export time.
+- A small labelled eval set to measure precision/recall.
+- Scheduled refresh instead of one snapshot.
+- Finish Ticketmaster/Nominatim, and fix source-attribution precision via
+  `grounding_supports`.
